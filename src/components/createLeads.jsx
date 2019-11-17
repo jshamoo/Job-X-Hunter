@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CreateLeads = () => (
-  <form className='create-leads'>
+const CreateLeads = (props) => (
+  <form className='create-leads' onSubmit={props.addALead}>
     <div>
       <label forid='job-post'>Job Post</label>
       <input type='text' id='job-post' name='job-post' required/>
