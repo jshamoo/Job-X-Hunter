@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateLeads from './createLeads.jsx';
 
 const LeadsList = (props) => {
   return (
@@ -11,12 +12,13 @@ const LeadsList = (props) => {
               <li key={lead._id}>
                 <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a>
                 <button id={lead._id} onClick={props.moveToApply}>Applied</button>
-                <button id={lead._id} onClick={props.moveToReject}>Nah</button>
+                <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>
               </li>
             );
           }
         })}
       </ol>
+      <CreateLeads addALead={props.addALead} />
     </div>
   )
 };

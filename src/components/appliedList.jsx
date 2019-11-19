@@ -10,7 +10,7 @@ const AppliedList = (props) => (
             <li key={lead._id}>
               <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a>
               <button id={lead._id} onClick={props.moveToPhone}>Yay, phone interview</button>
-              <button id={lead._id} onClick={props.moveToReject}>Their loss</button>
+              <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>
             </li>
           );
         }

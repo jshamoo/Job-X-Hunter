@@ -151,6 +151,7 @@ a:hover {
 .fa-trash-alt {
   cursor: pointer;
   color: #5C8C2B;
+  margin-left: 5px;
 }
 
 .btn-add-a-lead {
@@ -158,10 +159,10 @@ a:hover {
   color: white;
   border: 3px solid #567339;
   border-radius: 12px;
-  padding:  15px 60px;
+  padding:  5px 10px;
   text-align: center;
-  font-size: 30px;
-  font-family: 'Lobster Two', cursive;
+  font-size: inherit;
+  font-family: 'Roboto', cursive;
   transition-duration: 0.2s;
   margin-bottom: 15px;
 }

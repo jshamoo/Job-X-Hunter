@@ -52,7 +52,7 @@ class PhoneInterviewsList extends React.Component{
                   <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
                   <button id={lead._id} onClick={this.expand}>Edit</button>
                   <button id={lead._id} onClick={this.props.moveToOnsite}>Woohoo, onsite </button>
-                  <button id={lead._id} onClick={this.props.moveToReject}>Their loss</button><br />
+                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
                   {lead.phoneInterviewDate && <span className='interviewInfo'> {lead.phoneInterviewDate.slice(0, 10)} at {lead.phoneInterviewTime} with {lead.phoneInterviewHR}</span>}
                   {this.state.isExpanded[lead._id] &&
                     <form id={this.state.currentId} className='phone-interview-info-form' id={lead._id} onSubmit={this.updatePhoneIntervew}>

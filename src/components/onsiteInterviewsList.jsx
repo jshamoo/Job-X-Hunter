@@ -51,7 +51,7 @@ class OnsiteInterviewsList extends React.Component {
                   <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
                   <button id={lead._id} onClick={this.expand}>Edit</button>
                   <button id={lead._id} onClick={this.props.moveToOffer}>I got an offer!</button>
-                  <button id={lead._id} onClick={this.props.moveToReject}>Their loss</button><br />
+                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
                   {lead.onsiteInterviewDate && <span className='interviewInfo'>{lead.onsiteInterviewDate.slice(0, 10)} at {lead.onsiteInterviewTime} with {lead.onsiteInterviewHR}</span>}
                   {this.state.isExpanded[lead._id] &&
                     <form className='onsite-interview-info-form' id={lead._id} onSubmit={this.updateOnsiteInteview}>

@@ -9,7 +9,7 @@ const OffersList = (props) => (
           return (
             <li key={lead._id}>
               <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a>
-              <button id={lead._id} onClick={props.moveToReject}>No, thanks</button>
+              <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>
             </li>
           );
         }

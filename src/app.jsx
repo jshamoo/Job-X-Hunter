@@ -20,7 +20,7 @@ class App extends React.Component {
     };
     this.addALead = this.addALead.bind(this);
     this.getLeads = this.getLeads.bind(this);
-    this.getALead = this.getALead.bind(this);
+    // this.updateALead = this.updateALead.bind(this);
     this.moveToApply = this.moveToApply.bind(this);
     this.moveToPhone = this.moveToPhone.bind(this);
     this.moveToOnsite = this.moveToOnsite.bind(this);
@@ -41,15 +41,17 @@ class App extends React.Component {
       .catch((err) => console.error('Client GET fail', err));
   }
 
-  getALead(e) {
-    const { id } = e.target;
-    axios.get(`/leads/${id}`)
-      .then((res) => {
-        console.log('A lead', res.data)
-        this.setState({ lead: res.data });
-      })
-      .catch((err) => console.error('Client GET fail', err));
-  }
+  // updateALead(e) {
+  //   e.preventDefault();
+  //   const { id } = e.target;
+  //   const formData = $('.leads > .create-leads-form').serializeArray().reduce((acc, cur) => {
+  //     acc[cur.name] = cur.value;
+  //     return acc;
+  //   }, {});
+  //   axios.patch(`/leads/${id}`, formData)
+  //     .then((_res) => this.getLeads())
+  //     .catch((err) => console.error('Client PATCH fail', err));
+  // }
 
   addALead(e) {
     e.preventDefault();
@@ -106,19 +108,18 @@ class App extends React.Component {
       .then((_res) => {
         this.getLeads()
       })
-      .catch((err) => console.error('Client PATCH fail', err));
+      .catch((err) => console.error('Client DELETE fail', err));
   }
 
   render() {
     return (
       <div>
         <div className='header'><h1>Job Search Tracker</h1></div>
-        <CreateLeads addALead={this.addALead}/>
-        <LeadsList leads={this.state.leads} getALead={this.getALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
-        <AppliedList leads={this.state.leads} getALead={this.getALead} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
-        <PhoneInterviewsList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
-        <OnsiteInterviewsList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
-        <OffersList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToReject={this.moveToReject}/>
+        <LeadsList leads={this.state.leads} addALead={this.addALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
+        <AppliedList leads={this.state.leads} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
+        <PhoneInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
+        <OnsiteInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
+        <OffersList leads={this.state.leads} getLeads={this.getLeads} moveToReject={this.moveToReject}/>
         <RejectsList leads={this.state.leads} moveToTrash={this.moveToTrash}/>
       </div>
     );
