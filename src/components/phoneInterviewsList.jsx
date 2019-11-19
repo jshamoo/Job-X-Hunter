@@ -43,26 +43,31 @@ class PhoneInterviewsList extends React.Component{
   render() {
     return (
       <div className='phone-interviews'>
-        <h3>Upcoming Phone Interviews</h3>
+        <h2>Phone Interviews</h2>
         <ol>
           {this.props.leads.map((lead) => {
-            if (lead.phoneInterview === true && lead.onsiteInterview !== true) {
+            if (lead.phoneInterview === true && lead.onsiteInterview !== true && lead.rejected !== true) {
               return (
                 <li key={lead._id}>
-                  {lead.company} | {lead.position} | {lead.location}
-                  {lead.phoneInterviewDate && <span>| on {lead.phoneInterviewDate.slice(0, 10)} at {lead.phoneInterviewTime} with {lead.phoneInterviewHR}</span>}
+                  <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
                   <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <a href={lead.jobPost} target='_blank'><button>Read More</button></a>
-                  <button id={lead._id} onClick={this.props.moveToOnsite}>Onsite</button>
-                  <button id={lead._id} onClick={this.props.moveToReject}>Reject</button>
+                  <button id={lead._id} onClick={this.props.moveToOnsite}>Woohoo, onsite </button>
+                  <button id={lead._id} onClick={this.props.moveToReject}>Their loss</button><br />
+                  {lead.phoneInterviewDate && <span className='interviewInfo'> {lead.phoneInterviewDate.slice(0, 10)} at {lead.phoneInterviewTime} with {lead.phoneInterviewHR}</span>}
                   {this.state.isExpanded[lead._id] &&
                     <form id={this.state.currentId} className='phone-interview-info-form' id={lead._id} onSubmit={this.updatePhoneIntervew}>
-                      <label forid='phoneInterviewDate'>Interview Date</label>
-                      <input type='date' name='phoneInterviewDate' id='phoneInterviewDate' />
-                      <label forid='phoneInterviewTime'>Interview Time</label>
-                      <input type='text' name='phoneInterviewTime' id='phoneInterviewTime' />
-                      <label forid='phoneInterviewHR'>Interview With</label>
-                      <input type='text' name='phoneInterviewHR' id='phoneInterviewHR' />
+                      <div>
+                        <label forid='phoneInterviewDate'>Interview Date</label>
+                        <input type='date' name='phoneInterviewDate' id='phoneInterviewDate' />
+                      </div>
+                      <div>
+                        <label forid='phoneInterviewTime'>Interview Time</label>
+                        <input type='text' name='phoneInterviewTime' id='phoneInterviewTime' />
+                      </div>
+                      <div>
+                        <label forid='phoneInterviewHR'>Interview With</label>
+                        <input type='text' name='phoneInterviewHR' id='phoneInterviewHR' />
+                      </div>
                       <button type='submit'>save</button>
                     </form>}
                 </li>

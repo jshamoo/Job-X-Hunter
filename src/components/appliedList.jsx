@@ -2,16 +2,15 @@ import React from 'react';
 
 const AppliedList = (props) => (
   <div className='applied'>
-    <h3>Applied</h3>
+    <h2>Applied</h2>
     <ol>
       {props.leads.map((lead) => {
-        if (lead.applied === true && lead.phoneInterview !== true) {
+        if (lead.applied === true && lead.phoneInterview !== true && lead.rejected !== true) {
           return (
             <li key={lead._id}>
-              {lead.company}  |  {lead.position}  |  {lead.location}
-              <a href={lead.jobPost} target='_blank'><button>Read More</button></a>
-              <button id={lead._id} onClick={props.moveToPhone}>Phone</button>
-              <button id={lead._id} onClick={props.moveToReject}>Reject</button>
+              <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a>
+              <button id={lead._id} onClick={props.moveToPhone}>Yay, phone interview</button>
+              <button id={lead._id} onClick={props.moveToReject}>Their loss</button>
             </li>
           );
         }

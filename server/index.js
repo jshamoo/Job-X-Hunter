@@ -29,15 +29,32 @@ app.get('/leads', (req, res) => {
     });
 });
 
+app.get('/leads/:_id', (req, res) => {
+  db.read(req.params)
+    .then((docs) => res.json(docs))
+    .catch((err) => {
+      console.error('GET fail', err.stack);
+      res.sendStatus(500);
+    });
+});
+
 app.patch('/leads/:_id', (req, res) => {
-  console.log('..', req.params, req.body)
   db.update(req.params, req.body)
-    .then(() => res.sendStatus(201))
+    .then(() => res.sendStatus(202))
     .catch((err) => {
       console.error('PATCH fail', err.stack);
       res.sendStatus(500);
     });
 });
+
+app.delete('/leads/:_id', (req, res) => {
+  db.destroy(req.params)
+    .then(() => res.sendStatus(202))
+    .catch((err) => {
+      console.error('PATCH fail', err.stack);
+      res.sendStatus(500);
+    });
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

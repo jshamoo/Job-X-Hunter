@@ -2,14 +2,13 @@ import React from 'react';
 
 const RejectsList = (props) => (
   <div className='rejects'>
-    <h3>Rejects</h3>
+    <h2>Their Loss</h2>
     <ol>
       {props.leads.map((lead) => {
         if (lead.rejected === true) {
           return (
             <li key={lead._id}>
-              {lead.company}  |  {lead.position}  |  {lead.location}
-              <a href={lead.jobPost} target='_blank'><button>Read More</button></a>
+              <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}  </a><i id={lead._id} className="far fa-trash-alt" onClick={props.moveToTrash}></i>
             </li>
           );
         }

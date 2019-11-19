@@ -42,26 +42,31 @@ class OnsiteInterviewsList extends React.Component {
   render() {
     return (
       <div className='onsite-interviews'>
-        <h3>Upcoming onsite Interviews</h3>
+        <h2>Onsite Interviews</h2>
         <ol>
           {this.props.leads.map((lead) => {
-            if (lead.onsiteInterview === true && lead.rejectedAtOnsite !== true && lead.offer !== true) {
+            if (lead.onsiteInterview === true && lead.rejectedAtOnsite !== true && lead.offer !== true && lead.rejected !== true) {
               return (
                 <li key={lead._id}>
-                  {lead.company} | {lead.position} | {lead.location}
-                  {lead.onsiteInterviewDate && <span> | on {lead.onsiteInterviewDate.slice(0, 10)} at {lead.onsiteInterviewTime} with {lead.onsiteInterviewHR}</span>}
+                  <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
                   <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <a href={lead.jobPost} target='_blank'><button>Read More</button></a>
-                  <button id={lead._id} onClick={this.props.moveToOffer}>Offer</button>
-                  <button id={lead._id} onClick={this.props.moveToReject}>Reject</button>
+                  <button id={lead._id} onClick={this.props.moveToOffer}>I got an offer!</button>
+                  <button id={lead._id} onClick={this.props.moveToReject}>Their loss</button><br />
+                  {lead.onsiteInterviewDate && <span className='interviewInfo'>{lead.onsiteInterviewDate.slice(0, 10)} at {lead.onsiteInterviewTime} with {lead.onsiteInterviewHR}</span>}
                   {this.state.isExpanded[lead._id] &&
                     <form className='onsite-interview-info-form' id={lead._id} onSubmit={this.updateOnsiteInteview}>
-                      <label forid='onsiteInterviewDate'>Onsite Date</label>
-                      <input type='date' name='onsiteInterviewDate' id='onsiteInterviewDate' />
-                      <label forid='onsiteInterviewTime'>Onsite Time</label>
-                      <input type='text' name='onsiteInterviewTime' id='onsiteInterviewTime' />
-                      <label forid='onsiteInterviewHR'>Onsite With</label>
-                      <input type='text' name='onsiteInterviewHR' id='onsiteInterviewHR' />
+                      <div>
+                        <label forid='onsiteInterviewDate'>Onsite Date</label>
+                        <input type='date' name='onsiteInterviewDate' id='onsiteInterviewDate' />
+                      </div>
+                      <div>
+                        <label forid='onsiteInterviewTime'>Onsite Time</label>
+                        <input type='text' name='onsiteInterviewTime' id='onsiteInterviewTime' />
+                      </div>
+                      <div>
+                        <label forid='onsiteInterviewHR'>Onsite With</label>
+                        <input type='text' name='onsiteInterviewHR' id='onsiteInterviewHR' />
+                      </div>
                       <button type='submit'>save</button>
                     </form>}
                 </li>

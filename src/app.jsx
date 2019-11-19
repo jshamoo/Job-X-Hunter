@@ -16,14 +16,17 @@ class App extends React.Component {
     super();
     this.state = {
       leads: [],
+      lead: {}
     };
     this.addALead = this.addALead.bind(this);
     this.getLeads = this.getLeads.bind(this);
+    this.getALead = this.getALead.bind(this);
     this.moveToApply = this.moveToApply.bind(this);
     this.moveToPhone = this.moveToPhone.bind(this);
     this.moveToOnsite = this.moveToOnsite.bind(this);
     this.moveToOffer = this.moveToOffer.bind(this);
     this.moveToReject = this.moveToReject.bind(this);
+    this.moveToTrash = this.moveToTrash.bind(this);
   }
 
   componentDidMount() {
@@ -31,21 +34,30 @@ class App extends React.Component {
   }
 
   getLeads() {
-    axios.get('/leads', {})
+    axios.get('/leads',)
       .then((res) => {
         this.setState({ leads: res.data });
       })
       .catch((err) => console.error('Client GET fail', err));
   }
 
+  getALead(e) {
+    const { id } = e.target;
+    axios.get(`/leads/${id}`)
+      .then((res) => {
+        console.log('A lead', res.data)
+        this.setState({ lead: res.data });
+      })
+      .catch((err) => console.error('Client GET fail', err));
+  }
+
   addALead(e) {
     e.preventDefault();
-    const formData = $('.create-leads').serializeArray().reduce((acc, cur) => {
+    const formData = $('.create-leads-form').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       acc.applied = false;
       return acc;
     }, {});
-
     axios.post('/leads', formData)
       .then((_res) => this.getLeads())
       .catch((err) => console.error('Client POST fail', err));
@@ -82,20 +94,32 @@ class App extends React.Component {
   moveToReject(e) {
     const { id } = e.target;
     axios.patch(`/leads/${id}`, { rejected: true })
-      .then((_res) => this.getLeads())
+      .then((_res) => {
+        this.getLeads()
+      })
+      .catch((err) => console.error('Client PATCH fail', err));
+  }
+
+  moveToTrash(e) {
+    const { id } = e.target;
+    axios.delete(`/leads/${id}`, { rejected: true })
+      .then((_res) => {
+        this.getLeads()
+      })
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
   render() {
     return (
       <div>
+        <div className='header'><h1>Job Search Tracker</h1></div>
         <CreateLeads addALead={this.addALead}/>
-        <LeadsList leads={this.state.leads} moveToApply={this.moveToApply}/>
-        <AppliedList leads={this.state.leads} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
-        <PhoneInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
-        <OnsiteInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
-        <OffersList leads={this.state.leads} getLeads={this.getLeads} moveToReject={this.moveToReject}/>
-        <RejectsList leads={this.state.leads}/>
+        <LeadsList leads={this.state.leads} getALead={this.getALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
+        <AppliedList leads={this.state.leads} getALead={this.getALead} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
+        <PhoneInterviewsList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
+        <OnsiteInterviewsList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
+        <OffersList leads={this.state.leads} getALead={this.getALead} getLeads={this.getLeads} moveToReject={this.moveToReject}/>
+        <RejectsList leads={this.state.leads} moveToTrash={this.moveToTrash}/>
       </div>
     );
   }
