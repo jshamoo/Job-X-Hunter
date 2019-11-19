@@ -3,8 +3,8 @@ import React from 'react';
 const CreateLeads = (props) => (
   <form className='create-leads' onSubmit={props.addALead}>
     <div>
-      <label forid='job-post'>Job Post</label>
-      <input type='text' id='job-post' name='job-post' required/>
+      <label forid='jobPost'>Job Post</label>
+      <input type='text' id='jobPost' name='jobPost' required/>
     </div>
     <div>
       <label forid='company'>Company</label>
