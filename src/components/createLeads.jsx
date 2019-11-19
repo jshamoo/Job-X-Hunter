@@ -26,7 +26,7 @@ class CreateLeads extends React.Component {
         {this.state.isShown &&
           <form className='create-leads-form' onSubmit={this.handleSubmit}>
             <div>
-              <label forid='jobPost'>Job Post</label>
+            <label forid='jobPost'>Job Post&nbsp;</label>
               <input type='text' id='jobPost' name='jobPost' required />
             </div>
             <div>
@@ -34,11 +34,11 @@ class CreateLeads extends React.Component {
               <input type='text' id='company' name='company' required />
             </div>
             <div>
-              <label forid='position'>Position</label>
+            <label forid='position'>Position&nbsp;&nbsp;</label>
               <input type='text' id='position' name='position' required />
             </div>
             <div>
-              <label forid='location'>Location</label>
+            <label forid='location'>Location&nbsp;</label>
               <input type='text' id='location' name='location' />
             </div>
             <button type='submit'>save</button>

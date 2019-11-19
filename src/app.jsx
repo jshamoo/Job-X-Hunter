@@ -15,8 +15,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      leads: [],
-      lead: {}
+      leads: []
     };
     this.addALead = this.addALead.bind(this);
     this.getLeads = this.getLeads.bind(this);
@@ -27,6 +26,9 @@ class App extends React.Component {
     this.moveToOffer = this.moveToOffer.bind(this);
     this.moveToReject = this.moveToReject.bind(this);
     this.moveToTrash = this.moveToTrash.bind(this);
+    this.updateOffer = this.updateOffer.bind(this);
+    this.updateOnsiteInteview = this.updateOnsiteInteview.bind(this);
+    this.updatePhoneIntervew = this.updatePhoneIntervew.bind(this);
   }
 
   componentDidMount() {
@@ -40,18 +42,6 @@ class App extends React.Component {
       })
       .catch((err) => console.error('Client GET fail', err));
   }
-
-  // updateALead(e) {
-  //   e.preventDefault();
-  //   const { id } = e.target;
-  //   const formData = $('.leads > .create-leads-form').serializeArray().reduce((acc, cur) => {
-  //     acc[cur.name] = cur.value;
-  //     return acc;
-  //   }, {});
-  //   axios.patch(`/leads/${id}`, formData)
-  //     .then((_res) => this.getLeads())
-  //     .catch((err) => console.error('Client PATCH fail', err));
-  // }
 
   addALead(e) {
     e.preventDefault();
@@ -111,15 +101,57 @@ class App extends React.Component {
       .catch((err) => console.error('Client DELETE fail', err));
   }
 
+  updateOffer(e) {
+    e.preventDefault();
+    const { id } = e.target;
+    const formData = $('.offer-info-form').serializeArray().reduce((acc, cur) => {
+      acc[cur.name] = cur.value;
+      return acc;
+    }, {});
+    axios.patch(`/leads/${id}`, formData)
+      .then((_res) => {
+        this.getLeads();
+      })
+      .catch((err) => console.error('Client PATCH fail', err));
+  }
+
+  updateOnsiteInteview(e) {
+    e.preventDefault();
+    const { id } = e.target;
+    const formData = $('.onsite-interview-info-form').serializeArray().reduce((acc, cur) => {
+      acc[cur.name] = cur.value;
+      return acc;
+    }, {});
+    axios.patch(`/leads/${id}`, formData)
+      .then((_res) => {
+        this.getLeads();
+      })
+      .catch((err) => console.error('Client PATCH fail', err));
+  }
+
+  updatePhoneIntervew(e) {
+    e.preventDefault();
+    const { id } = e.target;
+    const formData = $('.phone-interview-info-form').serializeArray().reduce((acc, cur) => {
+      acc[cur.name] = cur.value;
+      return acc;
+    }, {});
+    axios.patch(`/leads/${id}`, formData)
+      .then((_res) => {
+        this.getLeads();
+      })
+      .catch((err) => console.error('Client PATCH fail', err));
+  }
+
   render() {
     return (
       <div>
         <div className='header'><h1>Job Search Tracker</h1></div>
         <LeadsList leads={this.state.leads} addALead={this.addALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
         <AppliedList leads={this.state.leads} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
-        <PhoneInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
-        <OnsiteInterviewsList leads={this.state.leads} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
-        <OffersList leads={this.state.leads} getLeads={this.getLeads} moveToReject={this.moveToReject}/>
+        <PhoneInterviewsList leads={this.state.leads} updatePhoneIntervew={this.updatePhoneIntervew} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
+        <OnsiteInterviewsList leads={this.state.leads} updateOnsiteInteview={this.updateOnsiteInteview} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
+        <OffersList leads={this.state.leads} getLeads={this.getLeads} updateOffer={this.updateOffer} moveToReject={this.moveToReject}/>
         <RejectsList leads={this.state.leads} moveToTrash={this.moveToTrash}/>
       </div>
     );

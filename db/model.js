@@ -17,8 +17,9 @@ const leadsSchema = new Schema({
   onsiteInterviewTime: String,
   rejected: Boolean,
   offer: Boolean,
-  annualSalary: Number,
-  offerExpiration: Date,
+  offerDate: Date,
+  offerSalary: Number,
+  offerSpecifics: String,
   _updateAt: { type: Date, default: Date.now },
 });
 
