@@ -146,7 +146,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div className='header'><h1>Job Search Tracker</h1></div>
+        <div className='header'><h1>Job Hunter</h1></div>
         <LeadsList leads={this.state.leads} addALead={this.addALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
         <AppliedList leads={this.state.leads} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
         <PhoneInterviewsList leads={this.state.leads} updatePhoneIntervew={this.updatePhoneIntervew} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
