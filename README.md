@@ -1,4 +1,4 @@
-# myPT #
+# Job Search Tracker #
 
 ## Setup ##
  - `npm install`
