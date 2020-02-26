@@ -1,4 +1,4 @@
-# Job Search Tracker #
+# Job Hunter #
 
 ## Setup ##
  - `npm install`
