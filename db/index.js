@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 const { Leads } = require('./model');
 
 const url = process.env.MONGODB_URL || 'mongodb://localhost:27017/jobs';
