@@ -160,6 +160,12 @@ button {
 .info-form {
   background-color: rgb(231, 228, 228);
   border-radius: 5px;
+  width: 75%;
+  height:75%;
+}
+
+::placeholder {
+  color: blue;
 }
 
 .hidden {

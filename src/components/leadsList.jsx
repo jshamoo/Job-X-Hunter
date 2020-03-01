@@ -19,7 +19,7 @@ const LeadsList = (props) => {
                 id={lead._id}
                 draggable={true}
                 onDragStart={ev => props.dragStart(ev, 'leads')}
-                onClick={() => props.showInfoForm()}
+                onClick={(ev) => props.showInfoForm(ev)}
               >
                 <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
                 <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>

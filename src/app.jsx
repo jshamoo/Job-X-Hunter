@@ -16,15 +16,13 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      leads: []
+      leads: [],
+      targetLeadId: null,
     };
     this.addALead = this.addALead.bind(this);
     this.toggleLeadForm = this.toggleLeadForm.bind(this);
     this.getLeads = this.getLeads.bind(this);
     this.moveToTrash = this.moveToTrash.bind(this);
-    this.updateOffer = this.updateOffer.bind(this);
-    this.updateOnsiteInteview = this.updateOnsiteInteview.bind(this);
-    this.updatePhoneIntervew = this.updatePhoneIntervew.bind(this);
     this.dragStart = this.dragStart.bind(this);
     this.dragOver = this.dragOver.bind(this);
     this.drop = this.drop.bind(this);
@@ -71,48 +69,6 @@ class App extends React.Component {
       .catch((err) => console.error('Client DELETE fail', err));
   }
 
-  updateOffer(ev) {
-    ev.preventDefault();
-    const { id } = ev.target;
-    const formData = $('.offer-info-form').serializeArray().reduce((acc, cur) => {
-      acc[cur.name] = cur.value;
-      return acc;
-    }, {});
-    axios.patch(`/leads/${id}`, formData)
-      .then((_res) => {
-        this.getLeads();
-      })
-      .catch((err) => console.error('Client PATCH fail', err));
-  }
-
-  updateOnsiteInteview(ev) {
-    ev.preventDefault();
-    const { id } = ev.target;
-    const formData = $('.onsite-interview-info-form').serializeArray().reduce((acc, cur) => {
-      acc[cur.name] = cur.value;
-      return acc;
-    }, {});
-    axios.patch(`/leads/${id}`, formData)
-      .then((_res) => {
-        this.getLeads();
-      })
-      .catch((err) => console.error('Client PATCH fail', err));
-  }
-
-  updatePhoneIntervew(ev) {
-    ev.preventDefault();
-    const { id } = ev.target;
-    const formData = $('.create-a-lead').serializeArray().reduce((acc, cur) => {
-      acc[cur.name] = cur.value;
-      return acc;
-    }, {});
-    axios.patch(`/leads/${id}`, formData)
-      .then((_res) => {
-        this.getLeads();
-      })
-      .catch((err) => console.error('Client PATCH fail', err));
-  }
-
   dragStart(ev, st) {
     ev.dataTransfer.setData("id", ev.target.id);
     ev.dataTransfer.setData("currentStatus", st);
@@ -146,10 +102,12 @@ class App extends React.Component {
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
-  showInfoForm() {
-    console.log('clicked');
-    $('.info-form-wrapper').removeClass('hidden');
-    $('.info-form-wrapper').css('display', 'flex');
+  showInfoForm(ev) {
+    this.setState({ targetLeadId: ev.target.id }, () => {
+      console.log(this.state.targetLeadId)
+      $('.info-form-wrapper').removeClass('hidden');
+      $('.info-form-wrapper').css('display', 'flex');
+    });
   }
 
   hideInfoForm() {
@@ -223,6 +181,8 @@ class App extends React.Component {
           />
         </div>
         <InfoForm
+          leads={this.state.leads}
+          targetId={this.state.targetLeadId}
           hideInfoForm={this.hideInfoForm}
           edit={this.edit}
         />
