@@ -70,23 +70,7 @@ class PhoneInterviewsList extends React.Component{
                       <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>
                       <span className='interviewInfo'> {lead.phoneInterviewDate.slice(0, 10)} at {lead.phoneInterviewTime} with {lead.phoneInterviewHR}</span>
                     </div>
-                  }
-                  {this.state.isExpanded[lead._id] &&
-                    <form id={this.state.currentId} className='phone-interview-info-form' id={lead._id} onSubmit={this.handleSubmit}>
-                      <div>
-                        <label forid='phoneInterviewDate'>Interview Date</label>
-                        <input type='date' name='phoneInterviewDate' id='phoneInterviewDate' required/>
-                      </div>
-                      <div>
-                        <label forid='phoneInterviewTime'>Interview Time</label>
-                      <input type='text' name='phoneInterviewTime' id='phoneInterviewTime' required/>
-                      </div>
-                      <div>
-                        <label forid='phoneInterviewHR'>Interview With</label>
-                        <input type='text' name='phoneInterviewHR' id='phoneInterviewHR' />
-                      </div>
-                      <button type='submit'>save</button>
-                    </form>} */}
+                  } */}
                 </div>
               );
             }

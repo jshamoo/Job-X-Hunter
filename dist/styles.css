@@ -25,7 +25,7 @@ h1 {
 
 h2 {
   font-family: 'Gochi Hand', Helvetica, sans-serif;
-  color: #62BD4F;
+  color: #5AAC44;
   font-size: 2.2em;
 }
 
@@ -54,13 +54,19 @@ h2 {
   overflow-y: visible;
 }
 
+.droppable {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
 .item {
   background-color: white;
   min-height: 32px;
   margin: 5px 2px;
   padding: 5px;
   border-radius: 5px;
-  box-shadow: 1px 1px 1px rgb(173, 171, 171);
+  box-shadow: 0px 1px rgb(173, 171, 171);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,7 +76,6 @@ h2 {
   max-width: 260px;
   margin-right: 2px;
 }
-
 
 .newItem {
   display: flex;
@@ -87,10 +92,6 @@ h2 {
   color: rgb(48, 46, 46);
 }
 
-.hidden {
-  display: none;
-}
-
 .fas {
   color: rgba(225, 225, 225, 0.6);
 }
@@ -99,163 +100,68 @@ h2 {
   color: grey;
 }
 
-
-.create-leads {
+.create-a-lead {
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px 2px;
+  box-shadow: 0px 1px rgb(173, 171, 171);
 }
 
-.droppable {
-  background: transparent;
-  position: relative;
-  z-index: 1;
+.create-a-lead > div {
+  margin-bottom: 5px;
 }
-
-.leads {
-
-}
-
-
-.applied {
-  /* border: 1px solid rebeccapurple; */
-
-}
-
-
-.phoneInterviews {
-
-}
-
-
-.onsiteInterview {
-  /* background-color: lightskyblue; */
-
-}
-
-
-.offers {
-  /* background-color: lightgreen; */
-
-}
-
-.rejects {
-  /* background-color: lightslategray; */
-}
-
-
-
 
 input[type=text] {
   border: none;
-  border-bottom: 3px solid #527343;
+  border-bottom: 1px solid rgb(173, 171, 171);
   background: transparent;
-  width: 300px;
-}
-
-button {
-  border: 1px solid #527343;
-  border-radius: 5px;
-  /* background: #527343; */
-  color: #527343;
-  cursor: pointer;
+  width: 266px;
+  height: 25px;
+  color: darkgray;
   font-size: 12px;
-  font-family: inherit;
-  margin-left: 5px;
-}
-
-li {
-  margin: 15px 0px;
-}
-
-.interviewInfo {
-  background-color: #5C8C2B;
-  color: rgba(225, 225, 225, 0.6);
-  font-weight: bolder;
-  padding: 2px;
-  border-radius: 5px;
-  margin: 10px;
-}
-
-.create-leads-form > div {
-  margin-bottom: 10px;
-  height: 20px;
-}
-
-.create-leads-form > div > label {
-  margin-right: 10px;
-}
-
-.onsite-interview-info-form {
-  margin: 10px;
-}
-
-.onsite-interview-info-form > div {
-  /* margin-bottom: 10px; */
-  height: 20px;
-}
-
-.onsite-interview-info-form > div > label {
-  margin-right: 10px;
-}
-
-.phone-interview-info-form {
-  margin: 10px;
-}
-
-.phone-interview-info-form > div {
-  /* margin-bottom: 10px; */
-  height: 20px;
-}
-
-.phone-interview-info-form > div > label {
-  margin-right: 10px;
 }
 
 input:focus {
   outline: none;
 }
 
-a {
-  color: black;
-  text-decoration: none;
-}
-
-a:hover {
-  cursor: pointer;
-  color: #5C8C2B;
-}
-
-.fa-trash-alt {
-  cursor: pointer;
-  color: #5C8C2B;
-  margin-left: 5px;
-}
-
-.btn-add-a-lead {
-  background-color: #567339;
+.btn-add-lead {
+  background-color: #5AAC44;
+  border-radius: 2px;
   color: white;
-  border: 3px solid #567339;
-  border-radius: 12px;
-  padding:  5px 10px;
-  text-align: center;
-  font-size: inherit;
-  font-family: 'Roboto', cursive;
-  transition-duration: 0.2s;
-  /* margin-bottom: 15px; */
+  border: none;
+  padding: 5px;
+  margin-right: 5px;
+  font-size: 12px;
 }
 
-.btn-add-a-lead:hover {
-  background-color: transparent;
-  color: #5C8C2B;
+button {
+  border: none;
 }
 
-.offerInfo {
-  background-color: #5C8C2B;
-  color: rgba(225, 225, 225, 0.6);
-  font-weight: bolder;
-  padding: 2px;
-  border-radius: 5px;
+.info-form-wrapper {
+  width: 100%;
+  height: 80%;
+  padding: 5px;
   margin: 10px;
+  background-color: rgb(29, 27, 27, 0.4);
+  color: white;
+  border-radius: 5px;
+  position: fixed;
+  top: 70px;
+  /* left: 30%; */
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-ol {
-  border: 1px solid #5C8C2B;
+.info-form {
+  background-color: rgb(231, 228, 228);
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
 }

@@ -10,6 +10,7 @@ import PhoneInterviewsList from './components/phoneInterviewsList.jsx';
 import OnsiteInterviewsList from './components/onsiteInterviewsList.jsx';
 import RejectsList from './components/rejectsList.jsx';
 import OffersList from './components/offersList.jsx';
+import InfoForm from './components/form.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -28,7 +29,9 @@ class App extends React.Component {
     this.dragOver = this.dragOver.bind(this);
     this.drop = this.drop.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
-
+    this.showInfoForm = this.showInfoForm.bind(this);
+    this.hideInfoForm = this.hideInfoForm.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   componentDidMount() {
@@ -120,16 +123,13 @@ class App extends React.Component {
 
   dragOver(ev, el) {
     ev.preventDefault();
-    ev.target.style.cursor = 'grab';
   }
 
   drop(ev, el) {
     ev.preventDefault();
-    console.log('en.target on drop', ev.target)
     ev.dataTransfer.dropEffect = "move";
     const id = ev.dataTransfer.getData('id');
     const parentEl = document.getElementsByClassName(el)[0];
-    console.log('parent Element', parentEl)
     parentEl.appendChild(document.getElementById(id));
     let newStatus = parentEl.getAttribute('data-status')
     let currentStatus = ev.dataTransfer.getData('currentStatus');
@@ -146,52 +146,85 @@ class App extends React.Component {
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
+  showInfoForm() {
+    console.log('clicked');
+    $('.info-form-wrapper').removeClass('hidden');
+    $('.info-form-wrapper').css('display', 'flex');
+  }
+
+  hideInfoForm() {
+    $('.info-form-wrapper').removeAttr('style');
+    $('.info-form-wrapper').addClass('hidden');
+  }
+
+  edit() {
+
+  }
+
   render() {
     return (
-      <div id='main'>
-        <LeadsList
-          leads={this.state.leads.filter(lead => lead.leads === true)}
-          toggleLeadForm={this.toggleLeadForm}
-          addALead={this.addALead}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
-        />
-        <AppliedList
-          leads={this.state.leads.filter(lead => lead.applied === true )}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
-        />
-        <PhoneInterviewsList
-          leads={this.state.leads.filter(lead => lead.phoneInterview === true)}
-          updatePhoneIntervew={this.updatePhoneIntervew}
-          getLeads={this.getLeads}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
-        />
-        <OnsiteInterviewsList
-          leads={this.state.leads.filter(lead => lead.onsiteInterview === true)}
-          updateOnsiteInteview={this.updateOnsiteInteview}
-          getLeads={this.getLeads}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
-        />
-        <OffersList
-          leads={this.state.leads.filter(lead => lead.offer === true)}
-          getLeads={this.getLeads}
-          updateOffer={this.updateOffer}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
-        />
-        <RejectsList
-          leads={this.state.leads.filter(lead => lead.rejected === true)}
-          dragStart={this.dragStart}
-          dragOver={this.dragOver}
-          drop={this.drop}
+      <div>
+        <div id='main'>
+          <LeadsList
+            leads={this.state.leads.filter(lead => lead.leads === true)}
+            toggleLeadForm={this.toggleLeadForm}
+            addALead={this.addALead}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+          <AppliedList
+            leads={this.state.leads.filter(lead => lead.applied === true )}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+          <PhoneInterviewsList
+            leads={this.state.leads.filter(lead => lead.phoneInterview === true)}
+            updatePhoneIntervew={this.updatePhoneIntervew}
+            getLeads={this.getLeads}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+          <OnsiteInterviewsList
+            leads={this.state.leads.filter(lead => lead.onsiteInterview === true)}
+            updateOnsiteInteview={this.updateOnsiteInteview}
+            getLeads={this.getLeads}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+          <OffersList
+            leads={this.state.leads.filter(lead => lead.offer === true)}
+            getLeads={this.getLeads}
+            updateOffer={this.updateOffer}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+          <RejectsList
+            leads={this.state.leads.filter(lead => lead.rejected === true)}
+            dragStart={this.dragStart}
+            dragOver={this.dragOver}
+            drop={this.drop}
+            showInfoForm={this.showInfoForm}
+            edit={this.edit}
+          />
+        </div>
+        <InfoForm
+          hideInfoForm={this.hideInfoForm}
+          edit={this.edit}
         />
       </div>
     );
