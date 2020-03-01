@@ -147,17 +147,21 @@ class App extends React.Component {
   }
 
   dragStart(ev) {
-    // ev.dataTransfer.dropEffect = "move";
+    console.log('drag start', ev.target.id)
     ev.dataTransfer.setData("text/plain", ev.target.id);
   }
 
   dragOver(ev) {
+    console.log('drag over')
+    ev.dataTransfer.dropEffect = "move";
     ev.preventDefault();
   }
 
   drop(ev) {
+    console.log('drop', ev.target)
     ev.preventDefault();
     const data = ev.dataTransfer.getData('text');
+    console.log('data', data);
     ev.target.appendChild(document.getElementById(data));
     ev.dataTransfer.clearData();
   }
@@ -172,18 +176,53 @@ class App extends React.Component {
           moveToApply={this.moveToApply}
           moveToReject={this.moveToReject}
           dragStart={this.dragStart}
+          dragOver={this.dragOver}
+          drop={this.drop}
         />
         <AppliedList
           leads={this.state.leads}
           moveToPhone={this.moveToPhone}
           moveToReject={this.moveToReject}
+          dragStart={this.dragStart}
           dragOver={this.dragOver}
           drop={this.drop}
         />
-        <PhoneInterviewsList leads={this.state.leads} updatePhoneIntervew={this.updatePhoneIntervew} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
-        <OnsiteInterviewsList leads={this.state.leads} updateOnsiteInteview={this.updateOnsiteInteview} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
-        <OffersList leads={this.state.leads} getLeads={this.getLeads} updateOffer={this.updateOffer} moveToReject={this.moveToReject}/>
-        <RejectsList leads={this.state.leads} moveToTrash={this.moveToTrash}/>
+        <PhoneInterviewsList
+          leads={this.state.leads}
+          updatePhoneIntervew={this.updatePhoneIntervew}
+          getLeads={this.getLeads}
+          moveToOnsite={this.moveToOnsite}
+          moveToReject={this.moveToReject}
+          dragStart={this.dragStart}
+          dragOver={this.dragOver}
+          drop={this.drop}
+        />
+        <OnsiteInterviewsList
+          leads={this.state.leads}
+          updateOnsiteInteview={this.updateOnsiteInteview}
+          getLeads={this.getLeads}
+          moveToOffer={this.moveToOffer}
+          moveToReject={this.moveToReject}
+          dragStart={this.dragStart}
+          dragOver={this.dragOver}
+          drop={this.drop}
+        />
+        <OffersList
+          leads={this.state.leads}
+          getLeads={this.getLeads}
+          updateOffer={this.updateOffer}
+          moveToReject={this.moveToReject}
+          dragStart={this.dragStart}
+          dragOver={this.dragOver}
+          drop={this.drop}
+        />
+        <RejectsList
+          leads={this.state.leads}
+          moveToTrash={this.moveToTrash}
+          dragStart={this.dragStart}
+          dragOver={this.dragOver}
+          drop={this.drop}
+        />
       </div>
     );
   }

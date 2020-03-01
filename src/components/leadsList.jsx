@@ -6,15 +6,22 @@ const LeadsList = (props) => {
     props.dragStart(ev);
   }
 
+  const dropHandler = (ev) => {
+    props.drop(ev);
+  }
+
+  const dragOverHandler = (ev) => {
+    props.dragOver(ev);
+  }
+
   return (
     <div className='leads'>
       <h2>Leads</h2>
-      <ol>
+      <ol onDragOver={ev => dragOverHandler(ev)} onDrop={ev => dropHandler(ev)}>
         {props.leads.map((lead) => {
           if (lead.applied === false && lead.rejected !== true) {
             return (
               <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => dragStartHandler(ev)}>
-                {/* <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a> */}
                 <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
                 <button id={lead._id} onClick={props.moveToApply}>Applied</button>
                 <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>

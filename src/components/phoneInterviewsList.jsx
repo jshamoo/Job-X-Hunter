@@ -10,6 +10,9 @@ class PhoneInterviewsList extends React.Component{
     };
     this.expand = this.expand.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.dragStartHandler = this.dragStartHandler.bind(this);
+    this.dropHandler = this.dropHandler.bind(this);
+    this.dragOverHandler = this.dragOverHandler.bind(this);
   }
 
   expand(e) {
@@ -29,11 +32,23 @@ class PhoneInterviewsList extends React.Component{
     this.expand(e);
   }
 
+  dragStartHandler(ev) {
+    this.props.dragStart(ev);
+  }
+
+  dropHandler(ev) {
+    this.props.drop(ev);
+  }
+
+  dragOverHandler(ev) {
+    this.props.dragOver(ev);
+  }
+
   render() {
     return (
       <div className='phone-interviews'>
         <h2>Phone Interviews</h2>
-        <ol>
+        <ol onDragOver={ev => this.dragOverHandler(ev)} onDrop={ev => this.dropHandler(ev)}>
           {this.props.leads.map((lead) => {
             let gLink;
             if (lead.phoneInterviewDate) {
@@ -43,8 +58,8 @@ class PhoneInterviewsList extends React.Component{
             }
             if (lead.phoneInterview === true && lead.onsiteInterview !== true && lead.rejected !== true) {
               return (
-                <li key={lead._id}>
-                  <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
+                <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
+                  <span>{lead.company} | {lead.position} | {lead.location}</span>
                   <button id={lead._id} onClick={this.expand}>Edit</button>
                   <button id={lead._id} onClick={this.props.moveToOnsite}>Woohoo, onsite </button>
                   <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
