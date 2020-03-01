@@ -29,6 +29,9 @@ class App extends React.Component {
     this.updateOffer = this.updateOffer.bind(this);
     this.updateOnsiteInteview = this.updateOnsiteInteview.bind(this);
     this.updatePhoneIntervew = this.updatePhoneIntervew.bind(this);
+    this.dragStart = this.dragStart.bind(this);
+    this.dragOver = this.dragOver.bind(this);
+    this.drop = this.drop.bind(this);
   }
 
   componentDidMount() {
@@ -143,12 +146,40 @@ class App extends React.Component {
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
+  dragStart(ev) {
+    // ev.dataTransfer.dropEffect = "move";
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+  }
+
+  dragOver(ev) {
+    ev.preventDefault();
+  }
+
+  drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData('text');
+    ev.target.appendChild(document.getElementById(data));
+    ev.dataTransfer.clearData();
+  }
+
   render() {
     return (
       <div>
         <div className='header'><h1>Job Hunter</h1></div>
-        <LeadsList leads={this.state.leads} addALead={this.addALead} moveToApply={this.moveToApply} moveToReject={this.moveToReject}/>
-        <AppliedList leads={this.state.leads} moveToPhone={this.moveToPhone} moveToReject={this.moveToReject}/>
+        <LeadsList
+          leads={this.state.leads}
+          addALead={this.addALead}
+          moveToApply={this.moveToApply}
+          moveToReject={this.moveToReject}
+          dragStart={this.dragStart}
+        />
+        <AppliedList
+          leads={this.state.leads}
+          moveToPhone={this.moveToPhone}
+          moveToReject={this.moveToReject}
+          dragOver={this.dragOver}
+          drop={this.drop}
+        />
         <PhoneInterviewsList leads={this.state.leads} updatePhoneIntervew={this.updatePhoneIntervew} getLeads={this.getLeads} moveToOnsite={this.moveToOnsite} moveToReject={this.moveToReject}/>
         <OnsiteInterviewsList leads={this.state.leads} updateOnsiteInteview={this.updateOnsiteInteview} getLeads={this.getLeads} moveToOffer={this.moveToOffer} moveToReject={this.moveToReject}/>
         <OffersList leads={this.state.leads} getLeads={this.getLeads} updateOffer={this.updateOffer} moveToReject={this.moveToReject}/>
