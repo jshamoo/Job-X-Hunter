@@ -108,6 +108,7 @@ class App extends React.Component {
     ev.dataTransfer.setData("id", ev.target.id);
     ev.dataTransfer.setData("currentStatus", st);
     ev.dataTransfer.effectAllowed = 'move';
+    ev.target.style.cursor = 'grab';
   }
 
 
@@ -140,8 +141,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className='header'><h1>Job Hunter</h1></div>
+      <div id='main'>
         <LeadsList
           leads={this.state.leads.filter(lead => lead.leads === true)}
           addALead={this.addALead}

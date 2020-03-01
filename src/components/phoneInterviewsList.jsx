@@ -46,7 +46,7 @@ class PhoneInterviewsList extends React.Component{
 
   render() {
     return (
-      <div>
+      <div className='board'>
         <h2>Phone Interviews</h2>
         <div
           className='phoneInterview'
@@ -63,7 +63,8 @@ class PhoneInterviewsList extends React.Component{
             }
               return (
                 <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  {lead.company} | {lead.position} | {lead.location}
+                  <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
+                  <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
                   {/* {lead.phoneInterviewDate &&
                     <div>
                       <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>

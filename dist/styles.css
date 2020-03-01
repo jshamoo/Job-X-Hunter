@@ -1,104 +1,118 @@
 * {
   box-sizing: border-box;
-  margin-bottom: 5px;
+  margin: 0px;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  background-color: #F2F2F2;
-  /* background-image: url(./background.jpg); */
+  font-size: 12.5px;
+  background:url(./background.jpg);
   background-size: cover;
-  height: 100%;
-  padding-bottom: 100px;
-  /* padding-top: 30px; */
 }
 
+
 h1 {
-  font-family: 'Lobster Two', cursive;
-  color: #5C8C2B;
-  font-size: 3rem;
+  font-family: 'Gochi Hand', sans-serif;
+  color: white;
+  font-size: 40px;
+  text-align: center;
+  position: fixed;
+  left: 43%;
+  top: 5px;
+  /* border: 3px solid red; */
 }
 
 h2 {
-  font-family: 'Lobster Two', Helvetica, sans-serif;
+  font-family: 'Gochi Hand', Helvetica, sans-serif;
+  background-color: #EBECF0;
+  color: rgb(59, 158, 59);
+  font-size: 2.2em;
 }
 
 
-#root {
-  display: flex;
-  justify-content: center;
-  background-color: rgba(225, 225, 225, 0.6);
-  width: 60%;
-  margin: 0 auto;
-  padding-bottom: 20px;
+#main {
+  display: grid;
+  margin-top: 80px;
+  grid-template-columns: 300px 300px 300px 300px 300px 300px 300px;
+  grid-column-gap: 10px;
+  align-items: flex-start;
+  margin-left: 10px;
+  margin-right: 10px;;
 }
 
-.create-leads {
-  padding: 5px;
-  /* margin-bottom: 20px; */
-}
-
-.leads {
-  /* background-color: lightblue; */
-  padding: 5px;
-}
-
-.leads-board {
-  border: 1px solid #5C8C2B;
-  padding: 2px 2px 5px 2px;
+.board {
+  background-color: rgb(231, 228, 228);
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .item {
-  background-color: antiquewhite;
+  background-color: white;
   margin: 10px 2px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 2px 2px px rgba(225, 225, 225);
+  display: flex;
+  justify-content: space-between;
 }
+
+.newItem {
+  color: rgba(63, 59, 59, 0.6);
+  margin: 10px 2px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 2px 2px px rgba(225, 225, 225);
+}
+
+.newItem:hover {
+  background-color: white;
+  color: rgb(48, 46, 46);
+}
+
+.fas {
+  color: rgba(225, 225, 225, 0.6);
+}
+
+.fas:hover {
+  color: grey;
+}
+
+
+.create-leads {
+}
+
+
+.leads {
+
+}
+
 
 .applied {
-  /* background-color: lightpink; */
-  padding: 5px;
 }
 
-.leads-board {
-  border: 1px solid #5C8C2B;
-  padding: 2px 2px 5px 2px;
+
+.phoneInterviews {
+
 }
 
-.phone-interviews {
-  /* background-color: lightyellow; */
-  padding: 5px;
-}
 
-.phone-interviews > div {
-  border: 1px solid #5C8C2B;
-}
-
-.onsite-interviews {
+.onsiteInterview {
   /* background-color: lightskyblue; */
-  padding: 5px;
+
 }
 
-.onsite-interviews > div {
-  border: 1px solid #5C8C2B;
-}
 
 .offers {
   /* background-color: lightgreen; */
-  padding: 5px;
-}
 
-.offers > div {
-  border: 1px solid #5C8C2B;
 }
 
 .rejects {
   /* background-color: lightslategray; */
-  padding: 5px;
 }
 
-.rejects > div {
-  border: 1px solid #5C8C2B;
-}
+
+
 
 input[type=text] {
   border: none;

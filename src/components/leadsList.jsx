@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateLeads from './createLeads.jsx';
+
 
 const LeadsList = (props) => {
   const dragStartHandler = (ev, st) => {
@@ -15,7 +15,7 @@ const LeadsList = (props) => {
   }
 
   return (
-    <div>
+    <div className='board'>
       <h2>Leads</h2>
       <div
         className='leads'
@@ -32,13 +32,14 @@ const LeadsList = (props) => {
                 draggable={true}
                 onDragStart={ev => dragStartHandler(ev, 'leads')}
               >
-              {lead.company}  |  {lead.position}  |  {lead.location}
+                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
+                <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
               </div>
             );
           }
         )}
+        <div className='newItem' onClick={() => {}}>+ Add another lead</div>
       </div>
-      <CreateLeads addALead={props.addALead} />
     </div>
   )
 };

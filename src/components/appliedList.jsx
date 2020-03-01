@@ -14,7 +14,7 @@ const AppliedList = (props) => {
   }
 
   return (
-    <div>
+    <div className='board'>
       <h2>Applied</h2>
       <div
         className='applied'
@@ -31,7 +31,8 @@ const AppliedList = (props) => {
                 draggable={true}
                 onDragStart={ev => dragStartHandler(ev, 'applied')}
               >
-                {lead.company}  |  {lead.position}  |  {lead.location}
+                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
+                <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
               </div>
             );
           }

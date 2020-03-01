@@ -14,7 +14,7 @@ const RejectsList = (props) => {
   }
 
   return (
-    <div>
+    <div className='board'>
       <h2>Their Loss</h2>
       <div
         className='rejected'
@@ -25,7 +25,8 @@ const RejectsList = (props) => {
         {props.leads.map((lead) => {
             return (
               <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => dragStartHandler(ev)}>
-                {lead.company}  |  {lead.position}  |  {lead.location}
+                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
+                <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
               </div>
             );
           }
