@@ -17,7 +17,7 @@ const AppliedList = (props) => {
     <div className='board'>
       <h2>Applied</h2>
       <div
-        className='applied'
+        className='applied droppable'
         data-status='applied'
         onDragOver={ev => dragOverHandler(ev, 'leads')}
         onDrop={ev => dropHandler(ev, 'applied')}
@@ -31,8 +31,8 @@ const AppliedList = (props) => {
                 draggable={true}
                 onDragStart={ev => dragStartHandler(ev, 'applied')}
               >
-                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
+                <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
               </div>
             );
           }

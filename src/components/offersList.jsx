@@ -46,7 +46,7 @@ class OffersList extends React.Component{
       <div className='board'>
         <h2>Offers</h2>
         <div
-          className='offer'
+          className='offer droppable'
           data-status='offer'
           onDragOver={ev => this.dragOverHandler(ev)}
           onDrop={ev => this.dropHandler(ev, 'offer')}>
@@ -59,8 +59,8 @@ class OffersList extends React.Component{
               }
               return (
                 <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                  <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
+                  <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                  <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
                   {/* {lead.offerDate &&
                   <div>
                     <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>

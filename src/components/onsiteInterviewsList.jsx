@@ -48,7 +48,7 @@ class OnsiteInterviewsList extends React.Component {
       <div className='board'>
         <h2>Onsite Interviews</h2>
         <div
-          className='onsiteInterview'
+          className='onsiteInterview droppable'
           data-status='onsiteInterview'
           onDragOver={ev => this.dragOverHandler(ev)}
           onDrop={ev => this.dropHandler(ev, 'onsiteInterview')}
@@ -62,8 +62,8 @@ class OnsiteInterviewsList extends React.Component {
             }
               return (
                 <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                  <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
+                  <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                  <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
                   {/* {lead.onsiteInterviewDate &&
                     <div>
                       <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>

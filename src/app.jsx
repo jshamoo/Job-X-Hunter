@@ -18,6 +18,7 @@ class App extends React.Component {
       leads: []
     };
     this.addALead = this.addALead.bind(this);
+    this.toggleLeadForm = this.toggleLeadForm.bind(this);
     this.getLeads = this.getLeads.bind(this);
     this.moveToTrash = this.moveToTrash.bind(this);
     this.updateOffer = this.updateOffer.bind(this);
@@ -27,6 +28,7 @@ class App extends React.Component {
     this.dragOver = this.dragOver.bind(this);
     this.drop = this.drop.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
+
   }
 
   componentDidMount() {
@@ -41,9 +43,13 @@ class App extends React.Component {
       .catch((err) => console.error('Client GET fail', err));
   }
 
-  addALead(e) {
-    e.preventDefault();
-    const formData = $('.create-leads-form').serializeArray().reduce((acc, cur) => {
+  toggleLeadForm() {
+    $('.newItem').toggle('hidden');
+    $('.create-a-lead').toggle('hidden');
+  }
+
+  addALead(ev) {
+    const formData = $('.create-a-lead').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       acc.leads = true;
       return acc;
@@ -53,8 +59,8 @@ class App extends React.Component {
       .catch((err) => console.error('Client POST fail', err));
   }
 
-  moveToTrash(e) {
-    const { id } = e.target;
+  moveToTrash(ev) {
+    const { id } = ev.target;
     axios.delete(`/leads/${id}`, { rejected: true })
       .then((_res) => {
         this.getLeads()
@@ -62,9 +68,9 @@ class App extends React.Component {
       .catch((err) => console.error('Client DELETE fail', err));
   }
 
-  updateOffer(e) {
-    e.preventDefault();
-    const { id } = e.target;
+  updateOffer(ev) {
+    ev.preventDefault();
+    const { id } = ev.target;
     const formData = $('.offer-info-form').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       return acc;
@@ -76,9 +82,9 @@ class App extends React.Component {
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
-  updateOnsiteInteview(e) {
-    e.preventDefault();
-    const { id } = e.target;
+  updateOnsiteInteview(ev) {
+    ev.preventDefault();
+    const { id } = ev.target;
     const formData = $('.onsite-interview-info-form').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       return acc;
@@ -90,10 +96,10 @@ class App extends React.Component {
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
-  updatePhoneIntervew(e) {
-    e.preventDefault();
-    const { id } = e.target;
-    const formData = $('.phone-interview-info-form').serializeArray().reduce((acc, cur) => {
+  updatePhoneIntervew(ev) {
+    ev.preventDefault();
+    const { id } = ev.target;
+    const formData = $('.create-a-lead').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       return acc;
     }, {});
@@ -114,6 +120,7 @@ class App extends React.Component {
 
   dragOver(ev, el) {
     ev.preventDefault();
+    ev.target.style.cursor = 'grab';
   }
 
   drop(ev, el) {
@@ -122,7 +129,7 @@ class App extends React.Component {
     ev.dataTransfer.dropEffect = "move";
     const id = ev.dataTransfer.getData('id');
     const parentEl = document.getElementsByClassName(el)[0];
-
+    console.log('parent Element', parentEl)
     parentEl.appendChild(document.getElementById(id));
     let newStatus = parentEl.getAttribute('data-status')
     let currentStatus = ev.dataTransfer.getData('currentStatus');
@@ -144,6 +151,7 @@ class App extends React.Component {
       <div id='main'>
         <LeadsList
           leads={this.state.leads.filter(lead => lead.leads === true)}
+          toggleLeadForm={this.toggleLeadForm}
           addALead={this.addALead}
           dragStart={this.dragStart}
           dragOver={this.dragOver}

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import CreateALead from './createLeads.jsx';
 
 const LeadsList = (props) => {
   const dragStartHandler = (ev, st) => {
@@ -14,11 +14,15 @@ const LeadsList = (props) => {
     props.dragOver(ev, el);
   }
 
+  const clickHandler = () => {
+    props.toggleLeadForm();
+  }
+
   return (
     <div className='board'>
       <h2>Leads</h2>
       <div
-        className='leads'
+        className='leads droppable'
         data-status='leads'
         onDragOver={ev => dragOverHandler(ev, 'leads')}
         onDrop={ev => dropHandler(ev, 'leads')}
@@ -32,14 +36,15 @@ const LeadsList = (props) => {
                 draggable={true}
                 onDragStart={ev => dragStartHandler(ev, 'leads')}
               >
-                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                <a href={lead.jobPost} target='_blank'><i class="fas fa-link xs"></i></a>
+                <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
               </div>
             );
           }
         )}
-        <div className='newItem' onClick={() => {}}>+ Add another lead</div>
       </div>
+      <div className='newItem' onClick={(ev) => clickHandler()}><p>+ Add another lead</p></div>
+      <CreateALead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm}/>
     </div>
   )
 };
