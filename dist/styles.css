@@ -44,9 +44,24 @@ h2 {
   padding: 5px;
 }
 
+.leads-board {
+  border: 1px solid #5C8C2B;
+  padding: 2px 2px 5px 2px;
+}
+
+.item {
+  background-color: antiquewhite;
+  margin: 10px 2px;
+}
+
 .applied {
   /* background-color: lightpink; */
   padding: 5px;
+}
+
+.leads-board {
+  border: 1px solid #5C8C2B;
+  padding: 2px 2px 5px 2px;
 }
 
 .phone-interviews {
@@ -54,9 +69,17 @@ h2 {
   padding: 5px;
 }
 
+.phone-interviews > div {
+  border: 1px solid #5C8C2B;
+}
+
 .onsite-interviews {
   /* background-color: lightskyblue; */
   padding: 5px;
+}
+
+.onsite-interviews > div {
+  border: 1px solid #5C8C2B;
 }
 
 .offers {
@@ -64,9 +87,17 @@ h2 {
   padding: 5px;
 }
 
+.offers > div {
+  border: 1px solid #5C8C2B;
+}
+
 .rejects {
   /* background-color: lightslategray; */
   padding: 5px;
+}
+
+.rejects > div {
+  border: 1px solid #5C8C2B;
 }
 
 input[type=text] {

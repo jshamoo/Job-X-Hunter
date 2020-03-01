@@ -35,19 +35,24 @@ class OnsiteInterviewsList extends React.Component {
     this.props.dragStart(ev);
   }
 
-  dropHandler(ev) {
-    this.props.drop(ev);
+  dropHandler(ev, el) {
+    console.log(el)
+    this.props.drop(ev, el);
   }
 
   dragOverHandler(ev) {
     this.props.dragOver(ev);
   }
-
   render() {
     return (
-      <div className='onsite-interviews'>
+      <div>
         <h2>Onsite Interviews</h2>
-        <ol onDragOver={ev => this.dragOverHandler(ev)} onDrop={ev => this.dropHandler(ev)}>
+        <div
+          className='onsiteInterview'
+          data-status='onsiteInterview'
+          onDragOver={ev => this.dragOverHandler(ev)}
+          onDrop={ev => this.dropHandler(ev, 'onsiteInterview')}
+        >
           {this.props.leads.map((lead) => {
             let gLink;
             if (lead.onsiteInterviewDate) {
@@ -55,15 +60,10 @@ class OnsiteInterviewsList extends React.Component {
             } else {
               gLink = '#'
             }
-
-            if (lead.onsiteInterview === true && lead.rejectedAtOnsite !== true && lead.offer !== true && lead.rejected !== true) {
               return (
-                <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  <span>{lead.company} | {lead.position} | {lead.location}</span>
-                  <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <button id={lead._id} onClick={this.props.moveToOffer}>I got an offer!</button>
-                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
-                  {lead.onsiteInterviewDate &&
+                <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
+                  {lead.company} | {lead.position} | {lead.location}
+                  {/* {lead.onsiteInterviewDate &&
                     <div>
                       <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>
                       <span className='interviewInfo'>{lead.onsiteInterviewDate.slice(0, 10)} at {lead.onsiteInterviewTime} with {lead.onsiteInterviewHR}</span>
@@ -85,12 +85,12 @@ class OnsiteInterviewsList extends React.Component {
                       </div>
                       <button type='submit'>save</button>
                     </form>
-                  }
-                </li>
+                  } */}
+                </div>
               );
             }
-          })}
-        </ol>
+          )}
+        </div>
       </div>
     )
   }

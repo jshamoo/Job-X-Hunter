@@ -10,6 +10,7 @@ const leadsSchema = new Schema({
   company: String,
   position: String,
   location: String,
+  leads: Boolean,
   applied: Boolean,
   phoneInterview: Boolean,
   phoneInterviewHR: String,

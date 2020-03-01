@@ -36,8 +36,8 @@ class PhoneInterviewsList extends React.Component{
     this.props.dragStart(ev);
   }
 
-  dropHandler(ev) {
-    this.props.drop(ev);
+  dropHandler(ev, el) {
+    this.props.drop(ev, el);
   }
 
   dragOverHandler(ev) {
@@ -46,9 +46,14 @@ class PhoneInterviewsList extends React.Component{
 
   render() {
     return (
-      <div className='phone-interviews'>
+      <div>
         <h2>Phone Interviews</h2>
-        <ol onDragOver={ev => this.dragOverHandler(ev)} onDrop={ev => this.dropHandler(ev)}>
+        <div
+          className='phoneInterview'
+          data-status='phoneInterview'
+          onDragOver={ev => this.dragOverHandler(ev)}
+          onDrop={ev => this.dropHandler(ev, 'phoneInterview')}
+        >
           {this.props.leads.map((lead) => {
             let gLink;
             if (lead.phoneInterviewDate) {
@@ -56,14 +61,10 @@ class PhoneInterviewsList extends React.Component{
             } else {
               gLink = '#'
             }
-            if (lead.phoneInterview === true && lead.onsiteInterview !== true && lead.rejected !== true) {
               return (
-                <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  <span>{lead.company} | {lead.position} | {lead.location}</span>
-                  <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <button id={lead._id} onClick={this.props.moveToOnsite}>Woohoo, onsite </button>
-                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
-                  {lead.phoneInterviewDate &&
+                <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
+                  {lead.company} | {lead.position} | {lead.location}
+                  {/* {lead.phoneInterviewDate &&
                     <div>
                       <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>
                       <span className='interviewInfo'> {lead.phoneInterviewDate.slice(0, 10)} at {lead.phoneInterviewTime} with {lead.phoneInterviewHR}</span>
@@ -84,12 +85,12 @@ class PhoneInterviewsList extends React.Component{
                         <input type='text' name='phoneInterviewHR' id='phoneInterviewHR' />
                       </div>
                       <button type='submit'>save</button>
-                    </form>}
-                </li>
+                    </form>} */}
+                </div>
               );
             }
-          })}
-        </ol>
+          )}
+        </div>
       </div>
     )
   }

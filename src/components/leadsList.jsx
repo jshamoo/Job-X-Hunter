@@ -2,34 +2,42 @@ import React from 'react';
 import CreateLeads from './createLeads.jsx';
 
 const LeadsList = (props) => {
-  const dragStartHandler = (ev) => {
-    props.dragStart(ev);
+  const dragStartHandler = (ev, st) => {
+    props.dragStart(ev,st);
   }
 
-  const dropHandler = (ev) => {
-    props.drop(ev);
+  const dropHandler = (ev, el) => {
+    props.drop(ev, el);
   }
 
-  const dragOverHandler = (ev) => {
-    props.dragOver(ev);
+  const dragOverHandler = (ev, el) => {
+    props.dragOver(ev, el);
   }
 
   return (
-    <div className='leads'>
+    <div>
       <h2>Leads</h2>
-      <ol onDragOver={ev => dragOverHandler(ev)} onDrop={ev => dropHandler(ev)}>
+      <div
+        className='leads'
+        data-status='leads'
+        onDragOver={ev => dragOverHandler(ev, 'leads')}
+        onDrop={ev => dropHandler(ev, 'leads')}
+      >
         {props.leads.map((lead) => {
-          if (lead.applied === false && lead.rejected !== true) {
             return (
-              <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => dragStartHandler(ev)}>
-                <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                <button id={lead._id} onClick={props.moveToApply}>Applied</button>
-                <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>
-              </li>
+              <div
+                className='item'
+                key={lead._id}
+                id={lead._id}
+                draggable={true}
+                onDragStart={ev => dragStartHandler(ev, 'leads')}
+              >
+              {lead.company}  |  {lead.position}  |  {lead.location}
+              </div>
             );
           }
-        })}
-      </ol>
+        )}
+      </div>
       <CreateLeads addALead={props.addALead} />
     </div>
   )

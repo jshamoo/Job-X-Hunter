@@ -5,8 +5,8 @@ const RejectsList = (props) => {
     props.dragStart(ev);
   }
 
-  const dropHandler = (ev) => {
-    props.drop(ev);
+  const dropHandler = (ev, el) => {
+    props.drop(ev, el);
   }
 
   const dragOverHandler = (ev) => {
@@ -14,19 +14,23 @@ const RejectsList = (props) => {
   }
 
   return (
-    <div className='rejects'>
+    <div>
       <h2>Their Loss</h2>
-      <ol onDragOver={ev => dragOverHandler(ev)} onDrop={ev => dropHandler(ev)}>
+      <div
+        className='rejected'
+        data-status='rejected'
+        onDragOver={ev => dragOverHandler(ev)}
+        onDrop={ev => dropHandler(ev, 'rejected')}
+      >
         {props.leads.map((lead) => {
-          if (lead.rejected === true) {
             return (
-              <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => dragStartHandler(ev)}>
-                <span>{lead.company}  |  {lead.position}  |  {lead.location}  </span><i id={lead._id} className="far fa-trash-alt" onClick={props.moveToTrash}></i>
-              </li>
+              <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => dragStartHandler(ev)}>
+                {lead.company}  |  {lead.position}  |  {lead.location}
+              </div>
             );
           }
-        })}
-      </ol>
+        )}
+      </div>
 
     </div>
   )

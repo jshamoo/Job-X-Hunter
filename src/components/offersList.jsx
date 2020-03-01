@@ -33,8 +33,8 @@ class OffersList extends React.Component{
     this.props.dragStart(ev);
   }
 
-  dropHandler(ev) {
-    this.props.drop(ev);
+  dropHandler(ev, el) {
+    this.props.drop(ev, el);
   }
 
   dragOverHandler(ev) {
@@ -43,11 +43,14 @@ class OffersList extends React.Component{
 
   render(){
     return(
-      <div className='offers'>
+      <div>
         <h2>Offers</h2>
-        <ol onDragOver={ev => this.dragOverHandler(ev)} onDrop={ev => this.dropHandler(ev)}>
+        <div
+          className='offer'
+          data-status='offer'
+          onDragOver={ev => this.dragOverHandler(ev)}
+          onDrop={ev => this.dropHandler(ev, 'offer')}>
           {this.props.leads.map((lead) => {
-            if (lead.offer === true && lead.rejected !== true) {
               let gLink;
               if(lead.offerDate) {
                 gLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${lead.company}+offer+deadline&dates=${lead.offerDate.slice(0, 10).replace(/\-/gi, '')}/${lead.offerDate.slice(0, 10).replace(/\-/gi, '')}&details=${lead.offerSpecifics}`;
@@ -55,11 +58,9 @@ class OffersList extends React.Component{
                 gLink ='#'
               }
               return (
-                <li key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
-                  <span>{lead.company}  |  {lead.position}  |  {lead.location}</span>
-                  <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
-                  {lead.offerDate &&
+                <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => this.dragStartHandler(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                  {/* {lead.offerDate &&
                   <div>
                     <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>
                     <span className='offerInfo'> Offer deadline is {lead.offerDate.slice(0, 10)}. Annual Salary is ${lead.offerSalary}. Notes: {lead.offerSpecifics}</span>
@@ -80,12 +81,12 @@ class OffersList extends React.Component{
                     </div>
                     <button type='submit'>save</button>
                   </form>
-                  }
-                </li>
+                  } */}
+                </div>
               );
             }
-          })}
-        </ol>
+          )}
+        </div>
       </div>
     )
   }
