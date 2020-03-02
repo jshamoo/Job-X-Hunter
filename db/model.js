@@ -28,6 +28,12 @@ const userSchema = new Schema({
   password: String,
 });
 
+userSchema.methods.validPassword = function(pwd) {
+  return (this.password === pwd);
+}
+
+userSchema.plugin(autoIncrement.plugin, 'Users');
+userSchema.plugin(autoIncrement.plugin, { model: 'Users', field: 'id' });
 const Users = mongoose.model('Users', userSchema);
 
 module.exports = { Leads, Users };

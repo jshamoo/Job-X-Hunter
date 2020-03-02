@@ -4,9 +4,11 @@ const ejs = require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const db = require('../db/index');
+const { Users } = require('../db/model');
 const router = require('./router');
 
 const app = express();
@@ -22,9 +24,10 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
 passport.use(new localStrategy(
   function (username, password, done) {
-    db.Users.findOne({ username: username }, function (err, user) {
+    Users.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
@@ -36,11 +39,25 @@ passport.use(new localStrategy(
     });
 }));
 
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  Users.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('tiny'));
+app.use(express.static('dist'));
 
 app.get('/',
   passport.authenticate('local', {
@@ -51,9 +68,29 @@ app.get('/',
 
 app.get('/login', (req, res) => {
   res.render('login');
+});
+
+app.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    // send failure message back
+  })
+);
+
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.post('/signup', (req, res) => {
+  Users.create(req.body)
+    .then(() => res.redirect('/login'))
+    .catch(err => {
+      console.error('signup error', err);
+      res.sendStatus(500);
+    });
 })
 
-app.use(express.static('dist'));
 app.get('/leads', router.leads.get);
 app.post('/leads', router.leads.post);
 app.get('/leads/:_id', router.lead.get);

@@ -3,7 +3,7 @@ const db = require('../db/index');
 module.exports = {
   leads: {
     post: (req, res) => {
-      db.create(req.body)
+      db.Leads.create(req.body)
         .then(() => res.sendStatus(201))
         .catch((err) => {
           console.error('POST fail', err.stack);
@@ -11,7 +11,7 @@ module.exports = {
         });
       },
     get: (req, res) => {
-      db.read(req.body)
+      db.Leads.read(req.body)
         .then((docs) => res.json(docs))
         .catch((err) => {
           console.error('GET fail', err.stack);
@@ -21,7 +21,7 @@ module.exports = {
   },
   lead: {
     get: (req, res) => {
-      db.read(req.params)
+      db.Leads.read(req.params)
         .then((docs) => res.json(docs))
         .catch((err) => {
           console.error('GET fail', err.stack);
@@ -29,7 +29,7 @@ module.exports = {
         });
       },
     patch: (req, res) => {
-      db.update(req.params, req.body)
+      db.Leads.update(req.params, req.body)
         .then(() => res.sendStatus(202))
         .catch((err) => {
           console.error('PATCH fail', err.stack);
@@ -37,7 +37,7 @@ module.exports = {
         });
       },
     delete: (req, res) => {
-      db.destroy(req.params)
+      db.Leads.destroy(req.params)
         .then(() => res.sendStatus(202))
         .catch((err) => {
           console.error('PATCH fail', err.stack);
