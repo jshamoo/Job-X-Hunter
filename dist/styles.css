@@ -12,15 +12,31 @@ body {
   background-color: rgb(32, 53, 81);
 }
 
-h1 {
-  font-family: 'Gochi Hand', sans-serif;
-  color: white;
-  font-size: 40px;
-  text-align: center;
+header {
   position: fixed;
   left: 43%;
   top: 5px;
+  display: flex;
   /* border: 3px solid red; */
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Gochi Hand', sans-serif;
+  color: white;
+  font-size: 40px;
+  margin-right: 400px;
+}
+
+.logout {
+  color: white;
+  font-family: 'Gochi Hand', sans-serif;
+  font-size: 16px;
+}
+
+.logout:hover {
+  cursor: pointer;
+  color: #5AAC44;
 }
 
 h2 {
@@ -71,7 +87,7 @@ h2 {
 }
 
 .item > div {
-  max-width: 260px;
+  width: 260px;
   margin-right: 2px;
 }
 
@@ -116,7 +132,7 @@ h2 {
   background: transparent;
   width: 266px;
   height: 25px;
-  color: darkgray;
+  color: rgb(88, 88, 88);
   font-size: 12px;
 }
 
@@ -149,7 +165,7 @@ button {
   position: fixed;
   top: 70px;
   /* left: 30%; */
-  z-index: 3;
+  /* z-index: 3; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,6 +179,7 @@ button {
   padding: 30px;
   color: black;
   display: table;
+  overflow-y: scroll;
 }
 
 div .info-form {
@@ -180,21 +197,18 @@ div .info-form {
   background: transparent;
   width: 95%;
   height: 25px;
-  color: darkgray;
+  color: rgb(88, 88, 88);
   font-size: 12px;
 }
 
 .info-form textarea {
   width: 95%;
   height: 70px;
+  color: rgb(88, 88, 88);
 }
 
 input:focus {
   outline: none;
-}
-
-input:active {
-  color: black;
 }
 
 ::placeholder {

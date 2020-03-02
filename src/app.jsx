@@ -18,6 +18,9 @@ class App extends React.Component {
     this.state = {
       leads: [],
       targetLeadId: null,
+      dragElementId: null,
+      currentStatus: '',
+      newStatus: '',
     };
     this.addALead = this.addALead.bind(this);
     this.toggleLeadForm = this.toggleLeadForm.bind(this);
@@ -50,55 +53,59 @@ class App extends React.Component {
   }
 
   addALead(ev) {
+    ev.preventDefault();
     const formData = $('.create-a-lead').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
       acc.leads = true;
       return acc;
     }, {});
     axios.post('/leads', formData)
-      .then((_res) => this.getLeads())
+      .then((_res) => {
+        this.getLeads();
+        this.toggleLeadForm();
+      })
       .catch((err) => console.error('Client POST fail', err));
   }
 
   dragStart(ev, st) {
-    ev.dataTransfer.setData("id", ev.target.id);
-    ev.dataTransfer.setData("currentStatus", st);
-    ev.dataTransfer.effectAllowed = 'move';
+    this.setState({
+      dragElementId: ev.target.id,
+      currentStatus: st,
+    });
     ev.target.style.cursor = 'grab';
   }
 
 
-  dragOver(ev, el) {
+  dragOver(ev) {
     ev.preventDefault();
   }
 
   drop(ev, el) {
-    ev.preventDefault();
-    ev.dataTransfer.dropEffect = "move";
-    const id = ev.dataTransfer.getData('id');
-    const parentEl = document.getElementsByClassName(el)[0];
-    console.log(parentEl)
-    parentEl.appendChild(document.getElementById(id));
-    let newStatus = parentEl.getAttribute('data-status')
-    let currentStatus = ev.dataTransfer.getData('currentStatus');
+    // ev.preventDefault();
+    const id = this.state.dragElementId;
+    const dragElement = document.getElementById(id);
+    const targetElement = document.getElementsByClassName(el)[0];
+
+    let newStatus = targetElement.getAttribute('data-status')
+    let currentStatus = this.state.currentStatus;
+
     if (newStatus !== currentStatus) {
       this.updateStatus(id, newStatus, currentStatus);
     }
-    ev.dataTransfer.clearData();
   }
 
 
   updateStatus(id, newStatus, currentStatus) {
     axios.patch(`/leads/${id}`, { [newStatus]: true, [currentStatus]: false })
-      .then((_res) => { this.getLeads() })
+      .then((_res) => this.getLeads())
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
   showInfoForm(ev) {
-    this.setState({ targetLeadId: ev.target.id }, () => {
-      console.log('clicked id', this.state.targetLeadId)
+    this.setState({ targetLeadId: ev.target.getAttribute('data-target') }, () => {
       $('.info-form-wrapper').removeClass('hidden');
       $('.info-form-wrapper').css('display', 'flex');
+      $('.info-form-wrapper').css('z-index', '3');
     });
   }
 
@@ -115,19 +122,19 @@ class App extends React.Component {
       }
       return acc;
     }, {});
-    console.log(formData);
+
     const id = this.state.targetId || Array.prototype.slice.call(arguments, 1)[0];
     axios.patch(`/leads/${id}`, formData)
-      .then((_res) => this.getLeads())
+      .then((_res) => this.hideInfoForm())
+      .then(() => this.getLeads())
       .catch((err) => console.error('Client POST fail', err));
   }
 
-  moveToTrash(id) {
+  moveToTrash(ev, id) {
+    ev.preventDefault();
     axios.delete(`/leads/${id}`, { rejected: true })
-      .then((_res) => {
-        this.getLeads();
-        this.hideInfoForm();
-      })
+      .then((_res) => this.hideInfoForm())
+      .then(() => this.getLeads())
       .catch((err) => console.error('Client DELETE fail', err));
   }
 
@@ -136,7 +143,7 @@ class App extends React.Component {
       <div>
         <div id='main'>
           <LeadsList
-            leads={this.state.leads.filter(lead => lead.leads === true)}
+            leads={this.state.leads.filter(lead => lead.leads === true && lead.rejected !== true)}
             toggleLeadForm={this.toggleLeadForm}
             addALead={this.addALead}
             dragStart={this.dragStart}
@@ -146,7 +153,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <AppliedList
-            leads={this.state.leads.filter(lead => lead.applied === true )}
+            leads={this.state.leads.filter(lead => lead.applied === true && lead.rejected !== true)}
             dragStart={this.dragStart}
             dragOver={this.dragOver}
             drop={this.drop}
@@ -154,7 +161,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <PhoneInterviewsList
-            leads={this.state.leads.filter(lead => lead.phoneInterview === true)}
+            leads={this.state.leads.filter(lead => lead.phoneInterview === true && lead.rejected !== true)}
             updatePhoneIntervew={this.updatePhoneIntervew}
             getLeads={this.getLeads}
             dragStart={this.dragStart}
@@ -164,7 +171,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <OnsiteInterviewsList
-            leads={this.state.leads.filter(lead => lead.onsiteInterview === true)}
+            leads={this.state.leads.filter(lead => lead.onsiteInterview === true && lead.rejected !== true)}
             updateOnsiteInteview={this.updateOnsiteInteview}
             getLeads={this.getLeads}
             dragStart={this.dragStart}
@@ -174,7 +181,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <OffersList
-            leads={this.state.leads.filter(lead => lead.offer === true)}
+            leads={this.state.leads.filter(lead => lead.offer === true && lead.rejected !== true)}
             getLeads={this.getLeads}
             updateOffer={this.updateOffer}
             dragStart={this.dragStart}

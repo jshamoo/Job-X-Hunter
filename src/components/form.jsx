@@ -26,7 +26,7 @@ const InfoForm = (props) => {
           <textarea name='notes' placeholder={lead.notes || 'Add some notes'}></textarea>
         </div>
         <button type='submit' className='btn-submit'>Save Info</button>
-        <button type='button' className='btn-submit' onClick={() => props.moveToTrash(lead._id)}>Delete Lead</button>
+        <button type='button' className='btn-submit' onClick={(ev) => props.moveToTrash(ev, lead._id)}>Delete Lead</button>
         <button className='btn-close' type='button' onClick={() => props.hideInfoForm()}>{'\u2715'}</button>
       </form>
     </div>

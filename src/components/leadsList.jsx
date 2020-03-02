@@ -8,27 +8,28 @@ const LeadsList = (props) => {
       <div
         className='leads droppable'
         data-status='leads'
-        onDragOver={ev => props.dragOver(ev, 'leads')}
-        onDrop={ev => props.drop(ev, 'leads')}
+        onDragOver={(ev) => props.dragOver(ev)}
+        onDrop={(ev, el) => props.drop(ev, 'leads')}
       >
         {props.leads.map((lead) => {
             return (
               <div
                 className='item'
-                key={lead._id}
                 id={lead._id}
+                key={lead._id}
                 draggable={true}
-                onDragStart={ev => props.dragStart(ev, 'leads')}
-                onClick={(ev) => props.showInfoForm(ev)}
+                onDragStart={(ev, st) => props.dragStart(ev, 'leads')}
               >
-                <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                </div>
                 <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
               </div>
             );
           }
         )}
       </div>
-      <div className='newItem' onClick={(ev) => props.toggleLeadForm()}><p>+ Add another lead</p></div>
+      <div className='newItem' onClick={(ev) => props.toggleLeadForm(ev)}><p>+ Add another lead</p></div>
       <CreateALead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm}/>
     </div>
   )

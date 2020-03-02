@@ -9,14 +9,21 @@ const PhoneInterviewsList = (props) =>{
       <div
         className='phoneInterview droppable'
         data-status='phoneInterview'
-        onDragOver={ev => props.dragOver(ev)}
-        onDrop={ev => props.drop(ev, 'phoneInterview')}
-        onClick={(ev) => props.showInfoForm(ev)}
+        onDragOver={(ev) => props.dragOver(ev)}
+        onDrop={(ev, el) => props.drop(ev, 'phoneInterview')}
       >
         {props.leads.map((lead) => {
             return (
-              <div className='item' key={lead._id} id={lead._id} draggable={true} onDragStart={ev => props.dragStart(ev)}>
-                <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+              <div
+                className='item'
+                id={lead._id}
+                key={lead._id}
+                draggable={true}
+                onDragStart={(ev, st) => props.dragStart(ev, 'phoneInterview')}
+              >
+                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                </div>
                 <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
               </div>
             );

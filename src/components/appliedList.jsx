@@ -7,22 +7,22 @@ const AppliedList = (props) => {
       <div
         className='applied droppable'
         data-status='applied'
-        onDragOver={ev => props.dragOver(ev, 'leads')}
-        onDrop={ev => props.drop(ev, 'applied')}
+        onDragOver={(ev) => props.dragOver(ev)}
+        onDrop={(ev, el) => props.drop(ev, 'applied')}
       >
         {props.leads.map((lead) => {
             return (
               <div
                 className='item'
                 data-status={lead._id}
-                key={lead._id} id={lead._id}
+                id={lead._id}
+                key={lead._id}
                 draggable={true}
-                onDragStart={ev => props.dragStart(ev, 'applied')}
-                onClick={(ev) => {
-                  console.log('applied item clicked')
-                  props.showInfoForm(ev);}}
+                onDragStart={(ev, st) => props.dragStart(ev, 'applied')}
               >
-                <div>{lead.company}  |  {lead.position}  |  {lead.location}</div>
+                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                </div>
                 <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
               </div>
             );
