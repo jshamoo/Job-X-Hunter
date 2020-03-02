@@ -2,83 +2,37 @@ import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
 
-class OnsiteInterviewsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isExpanded: {},
-    };
-    this.expand = this.expand.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  expand(e) {
-    const { id } = e.target;
-    this.setState((state) => ({
-        isExpanded: {
-          ...state.isExpanded,
-          [id]: !state.isExpanded[id],
-        }
-      })
-    )
-  }
-
-  handleSubmit(e) {
-    this.props.updateOnsiteInteview(e);
-    this.expand(e);
-  }
-
-  render() {
-    return (
-      <div className='onsite-interviews'>
-        <h2>Onsite Interviews</h2>
-        <ol>
-          {this.props.leads.map((lead) => {
-            let gLink;
-            if (lead.onsiteInterviewDate) {
-              gLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${lead.company}+onsite+interview&dates=${lead.onsiteInterviewDate.slice(0, 10).replace(/\-/gi, '')}/${lead.onsiteInterviewDate.slice(0, 10).replace(/\-/gi, '')}&details=''`;
-            } else {
-              gLink = '#'
-            }
-
-            if (lead.onsiteInterview === true && lead.rejectedAtOnsite !== true && lead.offer !== true && lead.rejected !== true) {
-              return (
-                <li key={lead._id}>
-                  <a href={lead.jobPost} target='_blank'>{lead.company} | {lead.position} | {lead.location}</a>
-                  <button id={lead._id} onClick={this.expand}>Edit</button>
-                  <button id={lead._id} onClick={this.props.moveToOffer}>I got an offer!</button>
-                  <i id={lead._id} className="far fa-trash-alt" onClick={this.props.moveToReject}></i><br />
-                  {lead.onsiteInterviewDate &&
-                    <div>
-                      <a href={gLink} target='_blank'><i id={lead._id} className="far fa-calendar-alt"></i></a>
-                      <span className='interviewInfo'>{lead.onsiteInterviewDate.slice(0, 10)} at {lead.onsiteInterviewTime} with {lead.onsiteInterviewHR}</span>
-                    </div>
-                  }
-                  {this.state.isExpanded[lead._id] &&
-                    <form className='onsite-interview-info-form' id={lead._id} onSubmit={this.handleSubmit}>
-                      <div>
-                        <label forid='onsiteInterviewDate'>Onsite Date</label>
-                      <input type='date' name='onsiteInterviewDate' id='onsiteInterviewDate' required/>
-                      </div>
-                      <div>
-                        <label forid='onsiteInterviewTime'>Onsite Time</label>
-                      <input type='text' name='onsiteInterviewTime' id='onsiteInterviewTime' required/>
-                      </div>
-                      <div>
-                        <label forid='onsiteInterviewHR'>Onsite With</label>
-                        <input type='text' name='onsiteInterviewHR' id='onsiteInterviewHR' />
-                      </div>
-                      <button type='submit'>save</button>
-                    </form>
-                  }
-                </li>
-              );
-            }
-          })}
-        </ol>
+const OnsiteInterviewsList = (props) => {
+  return (
+    <div className='board'>
+      <h2>Onsite Interviews</h2>
+      <div
+        className='onsiteInterview droppable'
+        data-status='onsiteInterview'
+        onDragOver={(ev) => props.dragOver(ev)}
+        onDrop={(ev, el) => props.drop(ev, 'onsiteInterview')}
+      >
+        {props.leads.map((lead) => {
+            return (
+              <div
+                className='item'
+                key={lead._id}
+                id={lead._id}
+                draggable={true}
+                onDragStart={(ev, st) => props.dragStart(ev, 'onsiteInterview')}
+              >
+                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                </div>
+                <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
+              </div>
+            );
+          }
+        )}
       </div>
-    )
-  }
-};
+    </div>
+  )
+}
+
 
 export default OnsiteInterviewsList;

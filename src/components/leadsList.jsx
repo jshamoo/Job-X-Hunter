@@ -1,24 +1,36 @@
 import React from 'react';
-import CreateLeads from './createLeads.jsx';
+import CreateALead from './createLeads.jsx';
 
 const LeadsList = (props) => {
   return (
-    <div className='leads'>
+    <div className='board'>
       <h2>Leads</h2>
-      <ol>
+      <div
+        className='leads droppable'
+        data-status='leads'
+        onDragOver={(ev) => props.dragOver(ev)}
+        onDrop={(ev, el) => props.drop(ev, 'leads')}
+      >
         {props.leads.map((lead) => {
-          if (lead.applied === false && lead.rejected !== true) {
             return (
-              <li key={lead._id}>
-                <a href={lead.jobPost} target='_blank'>{lead.company}  |  {lead.position}  |  {lead.location}</a>
-                <button id={lead._id} onClick={props.moveToApply}>Applied</button>
-                <i id={lead._id} className="far fa-trash-alt" onClick={props.moveToReject}></i>
-              </li>
+              <div
+                className='item'
+                id={lead._id}
+                key={lead._id}
+                draggable={true}
+                onDragStart={(ev, st) => props.dragStart(ev, 'leads')}
+              >
+                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
+                  {lead.company}  |  {lead.position}  |  {lead.location}
+                </div>
+                <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
+              </div>
             );
           }
-        })}
-      </ol>
-      <CreateLeads addALead={props.addALead} />
+        )}
+      </div>
+      <div className='newItem' onClick={(ev) => props.toggleLeadForm(ev)}><p>+ Add another lead</p></div>
+      <CreateALead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm}/>
     </div>
   )
 };
