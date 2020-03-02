@@ -19,7 +19,7 @@ const CreateALead = (props) => {
       <label forid='location'>Location&nbsp;</label>
         <input type='text' id='location' name='location' />
       </div>
-      <button className='btn-add-lead' type='submit'>Add Lead</button>
+      <button className='btn-submit' type='submit'>Add Lead</button>
       <button className='btn-close' type='button' onClick={() => props.toggleLeadForm()}>{'\u2715'}</button>
     </form>
   )

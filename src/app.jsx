@@ -60,15 +60,6 @@ class App extends React.Component {
       .catch((err) => console.error('Client POST fail', err));
   }
 
-  moveToTrash(ev) {
-    const { id } = ev.target;
-    axios.delete(`/leads/${id}`, { rejected: true })
-      .then((_res) => {
-        this.getLeads()
-      })
-      .catch((err) => console.error('Client DELETE fail', err));
-  }
-
   dragStart(ev, st) {
     ev.dataTransfer.setData("id", ev.target.id);
     ev.dataTransfer.setData("currentStatus", st);
@@ -86,6 +77,7 @@ class App extends React.Component {
     ev.dataTransfer.dropEffect = "move";
     const id = ev.dataTransfer.getData('id');
     const parentEl = document.getElementsByClassName(el)[0];
+    console.log(parentEl)
     parentEl.appendChild(document.getElementById(id));
     let newStatus = parentEl.getAttribute('data-status')
     let currentStatus = ev.dataTransfer.getData('currentStatus');
@@ -98,13 +90,13 @@ class App extends React.Component {
 
   updateStatus(id, newStatus, currentStatus) {
     axios.patch(`/leads/${id}`, { [newStatus]: true, [currentStatus]: false })
-      .then((_res) => {})
+      .then((_res) => { this.getLeads() })
       .catch((err) => console.error('Client PATCH fail', err));
   }
 
   showInfoForm(ev) {
     this.setState({ targetLeadId: ev.target.id }, () => {
-      console.log(this.state.targetLeadId)
+      console.log('clicked id', this.state.targetLeadId)
       $('.info-form-wrapper').removeClass('hidden');
       $('.info-form-wrapper').css('display', 'flex');
     });
@@ -115,8 +107,28 @@ class App extends React.Component {
     $('.info-form-wrapper').addClass('hidden');
   }
 
-  edit() {
+  edit(ev) {
+    ev.preventDefault();
+    const formData = $('.info-form').serializeArray().reduce((acc, cur) => {
+      if(cur.value) {
+        acc[cur.name] = cur.value;
+      }
+      return acc;
+    }, {});
+    console.log(formData);
+    const id = this.state.targetId || Array.prototype.slice.call(arguments, 1)[0];
+    axios.patch(`/leads/${id}`, formData)
+      .then((_res) => this.getLeads())
+      .catch((err) => console.error('Client POST fail', err));
+  }
 
+  moveToTrash(id) {
+    axios.delete(`/leads/${id}`, { rejected: true })
+      .then((_res) => {
+        this.getLeads();
+        this.hideInfoForm();
+      })
+      .catch((err) => console.error('Client DELETE fail', err));
   }
 
   render() {
@@ -185,6 +197,7 @@ class App extends React.Component {
           targetId={this.state.targetLeadId}
           hideInfoForm={this.hideInfoForm}
           edit={this.edit}
+          moveToTrash={this.moveToTrash}
         />
       </div>
     );
