@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
-const { Leads } = require('./model');
+const { Leads, Users } = require('./model');
 
 const url = process.env.MONGODB_URL || 'mongodb://localhost:27017/jobs';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
