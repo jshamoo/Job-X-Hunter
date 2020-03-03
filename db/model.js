@@ -33,7 +33,7 @@ userSchema.methods.validPassword = function(pwd) {
 }
 
 userSchema.plugin(autoIncrement.plugin, 'Users');
-userSchema.plugin(autoIncrement.plugin, { model: 'Users', field: 'id' });
+// userSchema.plugin(autoIncrement.plugin, { model: 'Users', field: 'id' });
 const Users = mongoose.model('Users', userSchema);
 
 module.exports = { Leads, Users };

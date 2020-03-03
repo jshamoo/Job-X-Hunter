@@ -4,6 +4,8 @@ const ejs = require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose');
+const mongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -24,8 +26,13 @@ app.use(session({
   secret: 'rainbow cat',
   name: 'jobxhunter',
   proxy: true,
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: true,
+  store: new mongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: {
+    maxAge: 3600000,
+    expires: new Date(Date.now() + 3600000)
+  }
 }));
 
 passport.use(new localStrategy(
@@ -49,7 +56,7 @@ app.use(passport.session());
 app.use(flash());
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user._id);
 }),
 
 passport.deserializeUser(function (id, done) {
@@ -58,7 +65,8 @@ passport.deserializeUser(function (id, done) {
   });
 }),
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
+  console.log('req session', req.session);
   if (req.user) {
     next();
   } else {
@@ -74,7 +82,6 @@ app.get('/login', (req, res) => {
 
 // custom callback
 app.post('/login', function (req, res, next) {
-  console.log('req body', req.body)
   passport.authenticate('local', function (err, user, info) {
     if (err) { return next(err); }
     if (!user) { return res.redirect('/login'); }
