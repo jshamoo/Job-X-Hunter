@@ -41,14 +41,11 @@ passport.use(new localStrategy(
     Users.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
-        console.log('incorrect username')
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
-        console.log('incorrect pwd')
         return done(null, false, { message: 'Incorrect password.' });
       }
-      console.log('tada')
       return done(null, user);
     });
 }));
@@ -94,7 +91,7 @@ app.get('/login', (req, res) => {
 app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) { return next(err); }
-    if (!user) { return res.redirect('/login'); }
+    if (!user) { return res.render('login', info); }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       return res.render('index')
@@ -103,6 +100,7 @@ app.post('/login', function (req, res, next) {
 });
 
 app.get('/signup', (req, res) => {
+  console.log('get sign up req', req.body, req.user, req.session, req.cookie);
   res.render('signup');
 });
 
@@ -113,7 +111,9 @@ app.post('/signup', (req, res) => {
     .then(() => res.redirect('/login'))
     .catch(err => {
       console.error('signup error', err);
-      res.sendStatus(500);
+      // res.redirect('/signup');
+      const message = 'The username is already in use.'
+      res.render('signup', { message: message })
     });
 })
 

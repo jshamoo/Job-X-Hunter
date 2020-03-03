@@ -19,7 +19,7 @@ class App extends React.Component {
       leads: [],
       targetLeadId: null,
       dragElementId: null,
-      currentStatus: '',
+      // currentStatus: '',
       newStatus: '',
     };
     this.addALead = this.addALead.bind(this);
@@ -56,7 +56,7 @@ class App extends React.Component {
     ev.preventDefault();
     const formData = $('.create-a-lead').serializeArray().reduce((acc, cur) => {
       acc[cur.name] = cur.value;
-      acc.leads = true;
+      acc.status = 'leads';
       return acc;
     }, {});
     axios.post('/leads', formData)
@@ -70,7 +70,7 @@ class App extends React.Component {
   dragStart(ev, st) {
     this.setState({
       dragElementId: ev.target.id,
-      currentStatus: st,
+      // currentStatus: st,
     });
     ev.target.style.cursor = 'grab';
   }
@@ -87,16 +87,16 @@ class App extends React.Component {
     const targetElement = document.getElementsByClassName(el)[0];
 
     let newStatus = targetElement.getAttribute('data-status')
-    let currentStatus = this.state.currentStatus;
+    // let currentStatus = this.state.currentStatus;
 
-    if (newStatus !== currentStatus) {
-      this.updateStatus(id, newStatus, currentStatus);
-    }
+    // if (newStatus !== currentStatus) {
+      this.updateStatus(id, newStatus);
+    // }
   }
 
 
-  updateStatus(id, newStatus, currentStatus) {
-    axios.patch(`/leads/${id}`, { [newStatus]: true, [currentStatus]: false })
+  updateStatus(id, newStatus) {
+    axios.patch(`/leads/${id}`, { status: newStatus })
       .then((_res) => this.getLeads())
       .catch((err) => console.error('Client PATCH fail', err));
   }
@@ -143,7 +143,7 @@ class App extends React.Component {
       <div>
         <div id='main'>
           <LeadsList
-            leads={this.state.leads.filter(lead => lead.leads === true && lead.rejected !== true)}
+            leads={this.state.leads.filter(lead => lead.status === 'leads')}
             toggleLeadForm={this.toggleLeadForm}
             addALead={this.addALead}
             dragStart={this.dragStart}
@@ -153,7 +153,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <AppliedList
-            leads={this.state.leads.filter(lead => lead.applied === true && lead.rejected !== true)}
+            leads={this.state.leads.filter(lead => lead.status === 'applied')}
             dragStart={this.dragStart}
             dragOver={this.dragOver}
             drop={this.drop}
@@ -161,7 +161,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <PhoneInterviewsList
-            leads={this.state.leads.filter(lead => lead.phoneInterview === true && lead.rejected !== true)}
+            leads={this.state.leads.filter(lead => lead.status === 'phoneInterview')}
             updatePhoneIntervew={this.updatePhoneIntervew}
             getLeads={this.getLeads}
             dragStart={this.dragStart}
@@ -171,7 +171,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <OnsiteInterviewsList
-            leads={this.state.leads.filter(lead => lead.onsiteInterview === true && lead.rejected !== true)}
+            leads={this.state.leads.filter(lead => lead.status === 'onsiteInterview')}
             updateOnsiteInteview={this.updateOnsiteInteview}
             getLeads={this.getLeads}
             dragStart={this.dragStart}
@@ -181,7 +181,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <OffersList
-            leads={this.state.leads.filter(lead => lead.offer === true && lead.rejected !== true)}
+            leads={this.state.leads.filter(lead => lead.status === 'offer')}
             getLeads={this.getLeads}
             updateOffer={this.updateOffer}
             dragStart={this.dragStart}
@@ -191,7 +191,7 @@ class App extends React.Component {
             edit={this.edit}
           />
           <RejectsList
-            leads={this.state.leads.filter(lead => lead.rejected === true)}
+            leads={this.state.leads.filter(lead => lead.status === 'rejected')}
             dragStart={this.dragStart}
             dragOver={this.dragOver}
             drop={this.drop}
