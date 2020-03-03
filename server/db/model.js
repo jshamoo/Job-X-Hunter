@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const connection = mongoose.createConnection('mongodb://localhost:27017/jobs');
+const { compareHash } = require('../hashHelper');
 
 autoIncrement.initialize(connection);
 
@@ -26,10 +27,11 @@ const Leads = mongoose.model('Leads', leadsSchema);
 const userSchema = new Schema({
   username: String,
   password: String,
+  salt: String,
 });
 
 userSchema.methods.validPassword = function(pwd) {
-  return (this.password === pwd);
+  return compareHash(pwd, this.password, this.salt);
 }
 
 userSchema.plugin(autoIncrement.plugin, 'Users');

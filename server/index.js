@@ -9,9 +9,10 @@ const mongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const db = require('../db/index');
-const { Users } = require('../db/model');
+const db = require('./db/index');
+const { Users } = require('./db/model');
 const router = require('./router');
+const { createHash, createSalt } = require('./hashHelper');
 
 const app = express();
 
@@ -40,11 +41,14 @@ passport.use(new localStrategy(
     Users.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
+        console.log('incorrect username')
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
+        console.log('incorrect pwd')
         return done(null, false, { message: 'Incorrect password.' });
       }
+      console.log('tada')
       return done(null, user);
     });
 }));
@@ -77,7 +81,13 @@ app.get('/', (req, res, next) => {
 app.use(express.static('dist'));
 
 app.get('/login', (req, res) => {
-  res.render('login');
+  console.log('req session', req.session);
+  console.log('req.user', req.user);
+  if (req.user) {
+    res.redirect('/');
+  } else {
+    res.render('login');
+  }
 });
 
 // custom callback
@@ -97,7 +107,9 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  Users.create(req.body)
+  const salt = createSalt();
+  const hashedPassword = createHash(req.body.password, salt);
+  Users.create({ username: req.body.username, password: hashedPassword, salt: salt})
     .then(() => res.redirect('/login'))
     .catch(err => {
       console.error('signup error', err);
