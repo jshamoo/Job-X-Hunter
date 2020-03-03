@@ -12,8 +12,9 @@ const { Users } = require('../db/model');
 const router = require('./router');
 
 const app = express();
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('tiny'));
 
 app.set('views', `${__dirname}/views`);
@@ -30,23 +31,20 @@ app.use(session({
 passport.use(new localStrategy(
   function (username, password, done) {
     Users.findOne({ username: username }, function (err, user) {
-      if (err) { console.log('<>>>', err); return done(err); }
+      if (err) { return done(err); }
       if (!user) {
-        console.log('incorrect username???')
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
-        console.log('!!!!')
         return done(null, false, { message: 'Incorrect password.' });
       }
-      console.log('#', user);
       return done(null, user);
     });
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 app.use(flash());
 
@@ -60,40 +58,32 @@ passport.deserializeUser(function (id, done) {
   });
 }),
 
-app.get('/',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    // send failure message back
-  })
-);
+app.get('/', (req, res) => {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+});
 
 app.use(express.static('dist'));
+
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
+// custom callback
 app.post('/login', function (req, res, next) {
   console.log('req body', req.body)
   passport.authenticate('local', function (err, user, info) {
-    console.log('%%%', user);
     if (err) { return next(err); }
     if (!user) { return res.redirect('/login'); }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
-      // return res.redirect('/users/' + user.username);
       return res.render('index')
     });
   })(req, res, next);
 });
-
-// app.post('/login',
-//   passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/login',
-//     // send failure message back
-//   })
-// );
 
 app.get('/signup', (req, res) => {
   res.render('signup');
@@ -107,6 +97,11 @@ app.post('/signup', (req, res) => {
       res.sendStatus(500);
     });
 })
+
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 app.get('/leads', router.leads.get);
 app.post('/leads', router.leads.post);

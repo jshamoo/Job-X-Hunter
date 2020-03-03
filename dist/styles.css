@@ -28,13 +28,14 @@ h1 {
   margin-right: 400px;
 }
 
-.logout {
+.logout a{
   color: white;
   font-family: 'Gochi Hand', sans-serif;
   font-size: 16px;
+  text-decoration: none;
 }
 
-.logout:hover {
+a:hover {
   cursor: pointer;
   color: #5AAC44;
 }
