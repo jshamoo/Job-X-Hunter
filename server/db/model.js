@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
-const connection = mongoose.createConnection('mongodb://localhost:27017/jobs');
 const { compareHash } = require('../hashHelper');
+
+const url = process.env.MONGODB_URL || 'mongodb://localhost:27017/jobs';
+const connection = mongoose.createConnection(url);
 
 autoIncrement.initialize(connection);
 
@@ -13,12 +15,6 @@ const leadsSchema = new Schema({
   position: String,
   location: String,
   status: { type: String, required: true },
-  // leads: Boolean,
-  // applied: Boolean,
-  // phoneInterview: Boolean,
-  // onsiteInterview: Boolean,
-  // rejected: Boolean,
-  // offer: Boolean,
   notes: String,
   _updateAt: { type: Date, default: Date.now },
 });
@@ -37,7 +33,6 @@ userSchema.methods.validPassword = function(pwd) {
 }
 
 userSchema.plugin(autoIncrement.plugin, 'Users');
-// userSchema.plugin(autoIncrement.plugin, { model: 'Users', field: 'id' });
 const Users = mongoose.model('Users', userSchema);
 
 module.exports = { Leads, Users };

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const session = require('express-session');
@@ -24,7 +25,7 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'rainbow cat',
+  secret: process.env.SECRET,
   name: 'jobxhunter',
   proxy: true,
   resave: false,
@@ -67,7 +68,6 @@ passport.deserializeUser(function (id, done) {
 }),
 
 app.get('/', (req, res, next) => {
-  console.log('req session', req.session);
   if (req.user) {
     res.set({ user: req.user.username});
     next();
@@ -79,8 +79,6 @@ app.get('/', (req, res, next) => {
 app.use(express.static('dist'));
 
 app.get('/login', (req, res) => {
-  console.log('req session', req.session);
-  console.log('req.user', req.user);
   if (req.user) {
     res.redirect('/');
   } else {
@@ -101,7 +99,6 @@ app.post('/login', function (req, res, next) {
 });
 
 app.get('/signup', (req, res) => {
-  console.log('get sign up req', req.body, req.user, req.session, req.cookie);
   res.render('signup');
 });
 

@@ -67,6 +67,7 @@ class App extends React.Component {
     axios.post('/leads', formData)
       .then((_res) => {
         this.getLeads();
+        $('.create-a-lead input[type="text"]').val('');
         this.toggleLeadForm();
       })
       .catch((err) => console.error('Client POST fail', err));
@@ -141,7 +142,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="app">
         <header>
           <h1>Job X Hunter</h1>
           <div className="user">Hello, {this.state.user}<a href="/logout" className="logout">Logout</a></div>

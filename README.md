@@ -1,4 +1,4 @@
-# Job Hunter #
+# Job X Hunter #
 
 ## Setup ##
  - `npm install`

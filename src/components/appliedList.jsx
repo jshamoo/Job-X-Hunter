@@ -23,7 +23,7 @@ const AppliedList = (props) => {
                 <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
                   {lead.company}  |  {lead.position}  |  {lead.location}
                 </div>
-                <a href={lead.jobPost} target='_blank'><i className="fas fa-link xs"></i></a>
+                <a href={lead.jobPost} target='_blank' className="arrow">&#10138;</a>
               </div>
             );
           }

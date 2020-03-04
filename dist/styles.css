@@ -1,3 +1,5 @@
+@import "https://fonts.googleapis.com/css?family=Gochi+Hand|Pacifico|Roboto&display=swap";
+
 * {
   box-sizing: border-box;
   margin: 0px;
@@ -5,24 +7,65 @@
 
 html {
   width: 100%;
+  height:100vh;
 }
-
 
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 12.5px;
-  /* background:url(./main-background.jpg);
-  background-size: cover; */
-  /* background-repeat: no-repeat; */
-  background-color: rgb(32, 53, 81);
+  background: linear-gradient(-45deg, #EE7752, rgb(163, 45, 134), #23A6D5, #23D5AB);
+  background-size: 400% 400%;
+  animation: change 10s ease-in-out infinite;
+  overflow-y: scroll;
+}
+
+@keyframes change {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+
+
+h2 {
+  font-family: 'Gochi Hand', Helvetica, sans-serif;
+  color: #5AAC44;
+  font-size: 2.2em;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#main {
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-column-gap: 10px;
+  grid-row-gap: 20px;
+  align-items: flex-start;
 }
 
 header {
-  position: fixed;
-  left: 43%;
-  top: 5px;
-  display: flex;
-  /* border: 3px solid red; */
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 
 h1 {
@@ -30,13 +73,15 @@ h1 {
   font-family: 'Gochi Hand', sans-serif;
   color: white;
   font-size: 40px;
-  margin-right: 300px;
 }
 
 .user {
-  color: #F5A73C;
+  color: white;
   font-family: 'Gochi Hand', sans-serif;
   font-size: 16px;
+  position: fixed;
+  top:10px;
+  right: 30px;
 }
 
 .logout{
@@ -52,40 +97,30 @@ a:hover {
   color: #5AAC44;
 }
 
-h2 {
-  font-family: 'Gochi Hand', Helvetica, sans-serif;
-  color: #5AAC44;
-  font-size: 2.2em;
-}
-
-#root {
-  height: 100%;
-  width: 100%;
-  overflow-x: visible;
-}
-
-
-#main {
-  display: grid;
-  margin-top: 80px;
-  grid-template-columns: 300px 300px 300px 300px 300px 300px 300px;
-  grid-column-gap: 10px;
-  align-items: flex-start;
-  margin-left: 10px;
-  margin-right: 10px;;
-}
-
 .board {
   background-color: rgb(231, 228, 228);
   border-radius: 10px;
   padding: 10px;
+  /* max-height: 400px; */
 }
 
 .droppable {
   background: transparent;
   position: relative;
-  min-height: 5px;
+  min-height: 15px;
+  max-height: 300px;
   z-index: 1;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #55505080;
+    box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
 .item {
@@ -120,11 +155,12 @@ h2 {
   color: rgb(48, 46, 46);
 }
 
-.fas {
+.arrow {
   color: rgba(225, 225, 225, 0.6);
+  text-decoration: none;
 }
 
-.fas:hover {
+.arrow:hover {
   color: grey;
 }
 
