@@ -41,10 +41,10 @@ passport.use(new localStrategy(
     Users.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        return done(null, false, { message: 'Incorrect username/password' });
       }
       if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
+        return done(null, false, { message: 'Incorrect username/password' });
       }
       return done(null, user);
     });
@@ -69,6 +69,7 @@ passport.deserializeUser(function (id, done) {
 app.get('/', (req, res, next) => {
   console.log('req session', req.session);
   if (req.user) {
+    res.set({ user: req.user.username});
     next();
   } else {
     res.redirect('/login');
@@ -108,12 +109,10 @@ app.post('/signup', (req, res) => {
   const salt = createSalt();
   const hashedPassword = createHash(req.body.password, salt);
   Users.create({ username: req.body.username, password: hashedPassword, salt: salt})
-    .then(() => res.redirect('/login'))
+    .then(() => res.render('login', {message: 'Welcome!'}))
     .catch(err => {
       console.error('signup error', err);
-      // res.redirect('/signup');
-      const message = 'The username is already in use.'
-      res.render('signup', { message: message })
+        res.render('signup', { message: 'The username is already in use.' })
     });
 })
 

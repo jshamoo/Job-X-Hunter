@@ -25,14 +25,21 @@ h1 {
   font-family: 'Gochi Hand', sans-serif;
   color: white;
   font-size: 40px;
-  margin-right: 400px;
+  margin-right: 300px;
 }
 
-.logout a{
+.user {
+  color: #F5A73C;
+  font-family: 'Gochi Hand', sans-serif;
+  font-size: 16px;
+}
+
+.logout{
   color: white;
   font-family: 'Gochi Hand', sans-serif;
   font-size: 16px;
   text-decoration: none;
+  padding-left: 10px;;
 }
 
 a:hover {

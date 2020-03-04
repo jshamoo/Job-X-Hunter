@@ -19,7 +19,7 @@ class App extends React.Component {
       leads: [],
       targetLeadId: null,
       dragElementId: null,
-      // currentStatus: '',
+      user: '',
       newStatus: '',
     };
     this.addALead = this.addALead.bind(this);
@@ -36,13 +36,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    axios.get('/')
+      .then(res => this.setState({ user: res.headers.user}))
+      .catch(err => console.log(err));
     this.getLeads();
   }
 
   getLeads() {
     axios.get('/leads',)
       .then((res) => {
-        this.setState({ leads: res.data });
+        this.setState({
+          leads: res.data
+        });
       })
       .catch((err) => console.error('Client GET fail', err));
   }
@@ -141,6 +146,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <header>
+          <h1>Job X Hunter</h1>
+          <div className="user">Hello, {this.state.user}<a href="/logout" className="logout">Logout</a></div>
+        </header>
         <div id='main'>
           <LeadsList
             leads={this.state.leads.filter(lead => lead.status === 'leads')}

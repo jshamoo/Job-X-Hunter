@@ -1,20 +1,33 @@
-<h2>Login</h2>
-<form action="/login" method="post">
-  <% if (locals.message) { %>
-  <p class="errorMessage"><%= locals.message %></p>
-  <% } %>
-  <div>
-    <label for="username">Username:</label>
-    <input id="username" type="text" name="username">
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input id="password" type="password" name="password">
-  </div>
-  <div>
-    <input type="submit" value="Login">
-  </div>
-</form>
-<p>
-  <a href="/signup">Create an Account &rarr;</a>
-<p>
+<!DOCTYPE html>
+<html lang="en-US">
+  <head charset="UTF-8">
+    <link rel='stylesheet' href='login.styles.css' />
+  </head>
+  <body>
+    <div class="login-signup">
+      <div class="login-signup-image"><img src="laptop.png" height="50"></div>
+      <div class="wrapper">
+        <h2>User Login</h2>
+        <form class="form" action="/login" method="post">
+          <% if (locals.message) { %>
+            <p class="message"><%= locals.message %></p>
+          <% } %>
+          <div>
+            <label for="username"></label>
+            <input id="username" type="text" name="username" placeholder="username">
+          </div>
+          <div>
+            <label for="password"></label>
+            <input id="password" type="password" name="password" placeholder="password">
+          </div>
+          <div>
+            <input type="submit" value="Login">
+          </div>
+        </form>
+        <p>
+          <a href="/signup">Not a user? Sign up</a>
+        <p>
+      </div>
+    </div>
+  </body>
+</html>
