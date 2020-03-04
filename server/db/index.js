@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const Model = require('./model');
 
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/jobs';
+const url = process.env.MONGODB_URI;
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('mongodb connected'))
   .catch((err) => console.error('mongodb connection fail', err.stack));
