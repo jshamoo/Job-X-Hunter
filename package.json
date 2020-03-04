@@ -7,7 +7,9 @@
     "build:dev": "webpack -d -w",
     "start:dev": "nodemon server/index.js",
     "build": "webpack -p",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "heroku-prebuild": "npm install",
+    "heroku-postbuild": "webpack"
   },
   "author": "jshamoo",
   "license": "ISC",
