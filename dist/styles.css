@@ -79,6 +79,7 @@ h2 {
 .droppable {
   background: transparent;
   position: relative;
+  min-height: 5px;
   z-index: 1;
 }
 

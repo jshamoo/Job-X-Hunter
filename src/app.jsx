@@ -86,17 +86,13 @@ class App extends React.Component {
   }
 
   drop(ev, el) {
-    // ev.preventDefault();
     const id = this.state.dragElementId;
     const dragElement = document.getElementById(id);
     const targetElement = document.getElementsByClassName(el)[0];
 
     let newStatus = targetElement.getAttribute('data-status')
-    // let currentStatus = this.state.currentStatus;
+    this.updateStatus(id, newStatus);
 
-    // if (newStatus !== currentStatus) {
-      this.updateStatus(id, newStatus);
-    // }
   }
 
 
