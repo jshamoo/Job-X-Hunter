@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const { compareHash } = require('../hashHelper');
 
-const url = process.env.MONGODB_URL || 'mongodb://localhost:27017/jobs';
+const url = process.env.MONGODB_URI;
 const connection = mongoose.createConnection(url);
 
 autoIncrement.initialize(connection);
