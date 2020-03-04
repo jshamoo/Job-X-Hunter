@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head charset="UTF-8">
+    <link rel='stylesheet' href='login.styles.css' />
+  </head>
+  <body>
+    <div class="login-signup">
+      <div class="login-signup-image"><img src="laptop.png" height="50"></div>
+      <div class="wrapper">
+        <h2>Sign up</h2>
+        <form class="form" action="/signup" method="post">
+          <% if (locals.message) { %>
+          <p class="message"><%= locals.message %></p>
+          <% } %>
+          <div>
+            <label for="username"></label>
+            <input id="username" type="text" name="username" placeholder="username">
+          </div>
+          <div>
+            <label for="password"></label>
+            <input id="password" type="password" name="password" placeholder="password">
+          </div>
+          <div>
+            <input type="submit" value="Sign up">
+          </div>
+        </form>
+        <p>
+          <a href="/login">Already a user? Login</a>
+        <p>
+      </div>
+    </div>
+  </body>
+</html>
