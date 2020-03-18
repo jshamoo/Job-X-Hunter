@@ -1,39 +1,33 @@
 import React from 'react';
-import CreateALead from './createLeads.jsx'
+import CreateALead from './createLeads.jsx';
+import Lead from './Lead.jsx';
 
 const List = (props) => {
+  const classes = `${props.status} droppable`;
   return (
     <div className='board'>
       <h2>{props.title}</h2>
       <div
-        className='droppable'
-        className={props.status}
+        className={classes}
         data-status={props.status}
         onDragOver={(ev) => props.dragOver(ev)}
         onDrop={(ev, el) => props.drop(ev, props.status)}
       >
-        {props.leads.map((lead) => {
-            return (
-              <div
-                className='item'
-                data-status={lead._id}
-                id={lead._id}
-                key={lead._id}
-                draggable={true}
-                onDragStart={(ev) => props.dragStart(ev)}
-              >
-                <div data-target={lead._id} onClick={(ev) => props.showInfoForm(ev)}>
-                  {lead.company}  |  {lead.position}  |  {lead.location}
-                </div>
-                <a href={lead.jobPost} target='_blank' className="arrow">&#10138;</a>
-              </div>
-            );
-          }
+        { props.leads.map(lead => (
+            <Lead
+              key={lead._id}
+              lead={lead}
+              showInfoForm={props.showInfoForm}
+              dragStart={props.dragStart}
+            />
+          )
         )}
       </div>
       { props.title === 'Leads' &&
         <div>
-          <div className='newItem' onClick={(ev) => props.toggleLeadForm(ev)}><p>+ Add another lead</p></div>
+          <div className='newItem' onClick={(ev) => props.toggleLeadForm(ev)}>
+            <p>+ Add another lead</p>
+          </div>
           <CreateALead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm} />
         </div>
       }

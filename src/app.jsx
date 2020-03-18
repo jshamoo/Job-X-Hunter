@@ -151,6 +151,7 @@ class App extends React.Component {
         <div id='main'>
           {this.props.board.map(list => (
             <List
+              key={list.id}
               title={list.title}
               status={list.status}
               leads={this.state.leads.filter(lead => lead.status === list.status)}
