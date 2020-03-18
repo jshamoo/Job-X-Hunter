@@ -11,10 +11,11 @@ import OnsiteInterviewsList from './components/onsiteInterviewsList.jsx';
 import RejectsList from './components/rejectsList.jsx';
 import OffersList from './components/offersList.jsx';
 import InfoForm from './components/form.jsx';
+import List from './components/List.jsx';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       leads: [],
       targetLeadId: null,
@@ -88,7 +89,7 @@ class App extends React.Component {
 
   drop(ev, el) {
     const id = this.state.dragElementId;
-    const dragElement = document.getElementById(id);
+    // const dragElement = document.getElementById(id);
     const targetElement = document.getElementsByClassName(el)[0];
 
     let newStatus = targetElement.getAttribute('data-status')
@@ -148,62 +149,20 @@ class App extends React.Component {
           <div className="user">Hello, {this.state.user}<a href="/logout" className="logout">Logout</a></div>
         </header>
         <div id='main'>
-          <LeadsList
-            leads={this.state.leads.filter(lead => lead.status === 'leads')}
-            toggleLeadForm={this.toggleLeadForm}
-            addALead={this.addALead}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
-          <AppliedList
-            leads={this.state.leads.filter(lead => lead.status === 'applied')}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
-          <PhoneInterviewsList
-            leads={this.state.leads.filter(lead => lead.status === 'phoneInterview')}
-            updatePhoneIntervew={this.updatePhoneIntervew}
-            getLeads={this.getLeads}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
-          <OnsiteInterviewsList
-            leads={this.state.leads.filter(lead => lead.status === 'onsiteInterview')}
-            updateOnsiteInteview={this.updateOnsiteInteview}
-            getLeads={this.getLeads}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
-          <OffersList
-            leads={this.state.leads.filter(lead => lead.status === 'offer')}
-            getLeads={this.getLeads}
-            updateOffer={this.updateOffer}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
-          <RejectsList
-            leads={this.state.leads.filter(lead => lead.status === 'rejected')}
-            dragStart={this.dragStart}
-            dragOver={this.dragOver}
-            drop={this.drop}
-            showInfoForm={this.showInfoForm}
-            edit={this.edit}
-          />
+          {this.props.board.map(list => (
+            <List
+              title={list.title}
+              status={list.status}
+              leads={this.state.leads.filter(lead => lead.status === list.status)}
+              toggleLeadForm={this.toggleLeadForm}
+              addALead={this.addALead}
+              dragStart={this.dragStart}
+              dragOver={this.dragOver}
+              drop={this.drop}
+              showInfoForm={this.showInfoForm}
+              edit={this.edit}
+            />
+          ))}
         </div>
         <InfoForm
           leads={this.state.leads}

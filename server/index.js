@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-// require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const session = require('express-session');
@@ -7,7 +7,6 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const mongoStore = require('connect-mongo')(session);
-const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const db = require('./db/index');
@@ -53,9 +52,6 @@ passport.use(new localStrategy(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-app.use(flash());
 
 passport.serializeUser(function (user, done) {
   done(null, user._id);
