@@ -3,14 +3,7 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
-import CreateLeads from './components/createLeads.jsx';
-import LeadsList from './components/leadsList.jsx';
-import AppliedList from './components/appliedList.jsx';
-import PhoneInterviewsList from './components/phoneInterviewsList.jsx';
-import OnsiteInterviewsList from './components/onsiteInterviewsList.jsx';
-import RejectsList from './components/rejectsList.jsx';
-import OffersList from './components/offersList.jsx';
-import InfoForm from './components/form.jsx';
+import InfoForm from './components/InfoForm.jsx';
 import List from './components/List.jsx';
 
 class App extends React.Component {
@@ -77,11 +70,8 @@ class App extends React.Component {
   dragStart(ev, st) {
     this.setState({
       dragElementId: ev.target.id,
-      // currentStatus: st,
     });
-    ev.target.style.cursor = 'grab';
   }
-
 
   dragOver(ev) {
     ev.preventDefault();
@@ -89,14 +79,12 @@ class App extends React.Component {
 
   drop(ev, el) {
     const id = this.state.dragElementId;
-    // const dragElement = document.getElementById(id);
     const targetElement = document.getElementsByClassName(el)[0];
 
     let newStatus = targetElement.getAttribute('data-status')
     this.updateStatus(id, newStatus);
 
   }
-
 
   updateStatus(id, newStatus) {
     axios.patch(`/leads/${id}`, { status: newStatus })
@@ -118,7 +106,7 @@ class App extends React.Component {
   }
 
   edit(ev) {
-    ev.preventDefault();
+    // ev.preventDefault();
     const formData = $('.info-form').serializeArray().reduce((acc, cur) => {
       if(cur.value) {
         acc[cur.name] = cur.value;
@@ -126,7 +114,7 @@ class App extends React.Component {
       return acc;
     }, {});
 
-    const id = this.state.targetId || Array.prototype.slice.call(arguments, 1)[0];
+    const id = this.state.targetLeadId || Array.prototype.slice.call(arguments, 1)[0];
     axios.patch(`/leads/${id}`, formData)
       .then((_res) => this.hideInfoForm())
       .then(() => this.getLeads())

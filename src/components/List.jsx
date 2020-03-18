@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateALead from './createLeads.jsx';
+import CreateLead from './CreateLead.jsx';
 import Lead from './Lead.jsx';
 
 const List = (props) => {
@@ -28,7 +28,7 @@ const List = (props) => {
           <div className='newItem' onClick={(ev) => props.toggleLeadForm(ev)}>
             <p>+ Add another lead</p>
           </div>
-          <CreateALead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm} />
+          <CreateLead addALead={props.addALead} toggleLeadForm={props.toggleLeadForm} />
         </div>
       }
     </div>
