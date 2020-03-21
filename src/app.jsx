@@ -11,10 +11,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       leads: [],
-      targetLeadId: null,
       dragElementId: null,
       user: '',
       newStatus: '',
+      showInfoForm: false,
+      targetLead: {}
     };
     this.addALead = this.addALead.bind(this);
     this.toggleLeadForm = this.toggleLeadForm.bind(this);
@@ -93,20 +94,21 @@ class App extends React.Component {
   }
 
   showInfoForm(ev) {
-    this.setState({ targetLeadId: ev.target.getAttribute('data-target') }, () => {
-      $('.info-form-wrapper').removeClass('hidden');
-      $('.info-form-wrapper').css('display', 'flex');
-      $('.info-form-wrapper').css('z-index', '3');
-    });
+    const targetId = ev.target.dataset.target;
+    this.setState(state => ({
+      showInfoForm: !state.showInfoForm,
+      targetLead: state.leads.filter(lead => lead._id == targetId)[0]
+    }))
   }
 
   hideInfoForm() {
-    $('.info-form-wrapper').removeAttr('style');
-    $('.info-form-wrapper').addClass('hidden');
+    this.setState(state => ({
+      showInfoForm: !state.showInfoForm,
+    }))
   }
 
-  edit(ev) {
-    // ev.preventDefault();
+  edit(ev, id) {
+    ev.preventDefault();
     const formData = $('.info-form').serializeArray().reduce((acc, cur) => {
       if(cur.value) {
         acc[cur.name] = cur.value;
@@ -114,11 +116,12 @@ class App extends React.Component {
       return acc;
     }, {});
 
-    const id = this.state.targetLeadId || Array.prototype.slice.call(arguments, 1)[0];
-    axios.patch(`/leads/${id}`, formData)
-      .then((_res) => this.hideInfoForm())
-      .then(() => this.getLeads())
-      .catch((err) => console.error('Client POST fail', err));
+    if (Object.keys(formData).length > 0) {
+      axios.patch(`/leads/${id}`, formData)
+        .then((_res) => this.hideInfoForm())
+        .then(() => this.getLeads())
+        .catch((err) => console.error('Client POST fail', err));
+    }
   }
 
   moveToTrash(ev, id) {
@@ -154,11 +157,11 @@ class App extends React.Component {
           ))}
         </div>
         <InfoForm
-          leads={this.state.leads}
-          targetId={this.state.targetLeadId}
+          targetLead={this.state.targetLead}
           hideInfoForm={this.hideInfoForm}
           edit={this.edit}
           moveToTrash={this.moveToTrash}
+          showInfoForm={this.state.showInfoForm}
         />
       </div>
     );

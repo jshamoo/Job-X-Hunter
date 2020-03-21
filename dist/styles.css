@@ -215,7 +215,7 @@ button {
   position: fixed;
   top: 70px;
   /* left: 30%; */
-  /* z-index: 3; */
+  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
