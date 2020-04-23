@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-// require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const Model = require('./model');
