@@ -1,6 +1,6 @@
 # Job X Hunter
-JobXHunter is an application for job seekers to store job leads and track their job application progress.
-It's a modern drag-n-drop board, consist of multiple lists. A user needs to create an account to log into the main webpage.
+JobXHunter is a web app for job seekers to create, store job leads, and track their job application progress.
+It is a modern drag-n-drop board, consists of multiple lists. A user needs to create an account to log into the main webpage.
 
 #### Home Page
 ![Home Page Image](./README_IMG/main.png)
@@ -28,9 +28,7 @@ npm start
 ```
 
 ## Live Website
-The app is currently hosted on [heroku](https://jobxhunter.herokuapp.com)
-
-### Logging In
+- The app is currently hosted on [heroku](https://jobxhunter.herokuapp.com).
 - In the landing page, either sign up as a user or use the following credentials as a test user:
 ```
 username: Jenny
